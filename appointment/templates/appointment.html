@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main class="max-w-[1200px] mx-auto px-2 md:px-3">
+  <header class="py-5 pb-10">
+    {% include 'search/search_form.html' %}
+  </header>
+  <section class=" ">
+    {% if sessions %}
+    <p class="py-2 text-sm text-gray-700">Total {{sessions.end_index}} out of {{sessions.paginator.count}}</p>
+    <div class=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {% for session in sessions %}
+      {% include 'card.html' %}
+      {% endfor %}
+    </div>
+    <!-- pagination  -->
+    <div class="my-10 flex justify-center">
+      <div class="flex gap-2 font-medium ">
+        {% if sessions.has_previous %}
+        <div
+          class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+          <a class="p-2 " href="?page={{sessions.previous_page_number}}&q={{request.GET.q}}"><i class="fa-solid fa-chevron-left"></i></a>
+        </div>
+        {% endif %}
+        {% for i in sessions.paginator.page_range %}
+        {% if i == sessions.number %}
+        <div
+          class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+          <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+        </div>
+        {% else %}
+        <div class="hover:bg-gray-300 rounded w-8 h-8 border border-gray-300 flex items-center justify-center ">
+          <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% if sessions.has_next %}
+        <div
+          class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+          <a class="p-2 " href="?page={{sessions.next_page_number}}&q={{request.GET.q}}"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <!-- pagination end -->
+  </section>
+
+  {% else %} <p class="py-2 text-gray-500">No appointment found</p>
+  {% endif %}
+</main>
+
+{% endblock body %}

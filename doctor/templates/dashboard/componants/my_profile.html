@@ -1,0 +1,68 @@
+{% load crispy_forms_tags %}
+<main class="p-2 md:px-3 lg:px-4">
+    <section >
+        <h1 class="text-base font-medium text-gray-700 pb-2 border-b border-gray-200">Basic info</h1>
+        <div class=" text-sm text-gray-700 my-3 w-full">
+            <div class="flex">
+                <p class="w-22 font-medium">Username: </p>
+                <p>{{doctor.user.username}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-22 font-medium">Email: </p>
+                <p>{{doctor.user.email}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-22 font-medium">First Name: </p>
+                <p>{{doctor.user.first_name}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-22 font-medium">Last Name: </p>
+                <p>{{doctor.user.last_name}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-22 font-medium">Phone: </p>
+                <p>{{doctor.user.phone_number}}</p>
+            </div>
+            
+        </div>
+    </section>
+    <section class="text-sm text-gray-700">
+        <h1 class="text-base font-medium text-gray-700 border-b pb-1 border-gray-200">Professional info</h1>
+        
+        <div class=" text-sm text-gray-700 my-3 w-full">
+            <div class="flex ">
+                <p class="w-25 font-medium text-xs">Registration No: </p>
+                <p>{{doctor.registration_no}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Speciality: </p>
+                <p>{{doctor.specialty}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Qualification: </p>
+                <p>{{doctor.qualification}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Experience: </p>
+                <p>{{doctor.experience_years}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Hospital: </p>
+                <p>{{doctor.hospital_name}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Chamber: </p>
+                <p>{{doctor.chamber_address}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Openig Hours: </p>
+                <p>{{doctor.working_hours|safe}}</p>
+            </div>
+            <div class="flex">
+                <p class="w-25 font-medium">Contact: </p>
+                <p>{{doctor.contact}}</p>
+            </div>
+            
+        </div>
+    </section>
+</main>

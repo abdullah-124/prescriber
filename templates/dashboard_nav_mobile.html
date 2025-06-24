@@ -1,0 +1,28 @@
+<main class="">
+    <ul class="text-2xl text-gray-600 px-2 font-medium flex justify-between">
+        <li class="p-2  hover:bg-indigo-100 rounded flex items-center">
+
+            <a href="{% url 'dashboard_overview' %}"><i class="  fa-solid fa-border-all"></i></a>
+        </li>
+        <li class="p-2  hover:bg-indigo-100 rounded flex items-center">
+
+            <a href="{% url 'dashboard_appointment' 'add' %}">
+                <i class="  fa-regular fa-calendar-days"></i></a>
+        </li>
+        <li class="p-2  hover:bg-indigo-100 rounded flex items-center">
+
+            <a href="{% url 'dashboard_appointment_list' %}">
+                <i class="  fa-regular fa-clock"></i></a>
+        </li>
+        <li class="p-2  hover:bg-indigo-100 rounded flex items-center">
+
+            <a href="{% url 'demo_prescription' %}">
+                <i class="fa-solid fa-file-prescription"></i></a>
+        </li>
+        <li class="p-2  hover:bg-indigo-100 rounded flex items-center">
+
+            <a href="{% url 'doctor_profile' user.username %}"><i class="  fa-solid fa-user-doctor"></i></a>
+        </li>
+       
+    </ul>
+</main>

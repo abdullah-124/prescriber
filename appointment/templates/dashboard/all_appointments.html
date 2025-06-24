@@ -1,0 +1,92 @@
+{% extends "dashboard/dashboard.html" %}
+
+
+
+{% block body %}
+<style>
+    th,
+    td {
+        padding: 8px;
+    }
+
+    tr:hover {
+        background-color: #ececec;
+    }
+</style>
+<main>
+    {% if sessions %}
+    <section>
+        <header class="flex justify-between mb-4 ">
+            <div>
+                <h3 class="font-medium">All Appointments</h3>
+                <p class="text-xs">Total<span class="mx-1 font-bold">{{sessions|length}}</span>Appointments</p>
+            </div>
+            <form  class="text-end text-gray-600" action="{% url 'dashboard_appointment' 'all' %}">
+                <label class="block text-xs" for="date_time">Filter by date</label>
+                <input onchange="this.form.submit()" type="date" value="{{request.GET.q}}" name="q" >
+            </form>
+        </header>
+        <section class="shadow-lg rounded-lg overflow-y-hidden  pb-5">
+            <table class="w-full text-gray-700 table-auto">
+                <thead class="font-bold ">
+                    <tr class="bg-gray-300">
+                        <th class="text-start">#</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Seat</th>
+                        <th>Booking</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center text-sm">
+                    {% for session in sessions %}
+                    <tr class="">
+                        <td class="text-start">{{forloop.counter}}</td>
+                        <td>{{session.appointment_date}}</td>
+                        <td>{{session.start_time}} - {{session.end_time}}</td>
+                        <td>{{session.seat}}</td>
+                        <td>{{session.total_booking}}</td>
+                        <td class="text-end"><a class="hover:text-indigo-500 text-indigo-700 font-medium"
+                                href="{% url 'appointment_operation' 'get' session.id %}">Check</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <!-- pagination -->
+        <div class="my-10 flex justify-center text-sm">
+            <div class="flex gap-2 font-medium ">
+                {% if sessions.has_previous %}
+                <div
+                    class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-6 h-6 border border-indigo-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{sessions.previous_page_number}}&q={{request.GET.q}}"><i
+                            class="fa-solid fa-chevron-left"></i></a>
+                </div>
+                {% endif %}
+                {% for i in sessions.paginator.page_range %}
+                {% if i == sessions.number %}
+                <div
+                    class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-6 h-6 border border-indigo-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+                </div>
+                {% else %}
+                <div class="hover:bg-gray-300 rounded w-6 h-6 border border-gray-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% if sessions.has_next %}
+                <div
+                    class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-6 h-6 border border-indigo-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{sessions.next_page_number}}&q={{request.GET.q}}"><i
+                            class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <h1 class="text-gray-700">No appointments found</h1>
+    {% endif %}
+</main>
+{% endblock body %}

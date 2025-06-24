@@ -1,0 +1,20 @@
+[{
+    "manufacturer": "Ad-din Pharmaceuticals Ltd.",
+    "name": "B Plex",
+    "generic": "Nicotinamide + Pyridoxine Hydrochloride + Riboflavin + Vitamin B1",
+    "strength": "20 mg + 2 mg + 2 mg + 5 mg 5 ml",
+    "dosage": "Syrup",
+    "price": 62.19,
+    "use_for": "Human",
+    "DAR": 840046078
+   },
+   {
+    "manufacturer": "Ad-din Pharmaceuticals Ltd.",
+    "name": "Ciproxen    250",
+    "generic": "Ciprofloxacin",
+    "strength": "250 mg",
+    "dosage": "Tablet",
+    "price": 7,
+    "use_for": "Human",
+    "DAR": 840034023
+   }]

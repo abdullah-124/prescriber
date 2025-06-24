@@ -1,0 +1,41 @@
+{% load crispy_forms_tags %}
+<main id="form_modal" class="hidden z-10 absolute left-0 top-0 w-full h-screen backdrop-blur-xs flex  justify-center">
+    <div class="relative bg-white w-full md:w-2/3 lg:w-1/2 ">
+        <button onclick="modal_toggle(event)"
+            class="absolute top-[-15px] right-[-15px] text-3xl text-red-500 hover:text-red-700"><i
+                class="fa-solid fa-circle-xmark"></i>
+        </button>
+        <div class="p-5 shadow-2xl rounded-lg border border-gray-100">
+            <form class="" method="post" action="">
+                {% csrf_token %}
+                
+                <h1 class="text-base text-gray-700 font-semibold border-b border-gray-100 py-1">Health Info</h1>
+                <div class="inline-flex gap-2 mb-2 w-full">
+                    <div class="w-full">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="reason">Reason</label>
+                        <input
+                            class="textinput px-4 bg-white w-full appearance-none leading-normal focus:outline-none text-gray-700 border border-gray-300 py-2 rounded-lg block"
+                            type="text" name="reason" id="" value="{{appointment.reason}}">
+                    </div>
+                </div>
+                
+                <div class="inline-flex gap-2 w-full">
+                    <div class="w-full">{{form.bp|as_crispy_field}}</div>
+                    <div class="w-full">{{form.temperature|as_crispy_field}}</div>
+                </div>
+                <div class="inline-flex gap-2 w-full">
+                    <div class="w-full">{{form.bg_before|as_crispy_field}}</div>
+                    <div class="w-full">{{form.bg_after|as_crispy_field}}</div>
+                </div>
+                <div class="inline-flex gap-2 w-full">
+                    <div class="w-full">{{form.weight|as_crispy_field}}</div>
+                    <div class="w-full">{{form.height|as_crispy_field}}</div>
+                </div>
+                <div class="flex justify-between">
+                    <button class="bg-indigo-500 hover:bg-indigo-600 my-3 text-white px-3 py-1 rounded" type="submit">Update</button>
+                    <button onclick="modal_toggle(event)" class="bg-red-500 hover:bg-red-600 my-3 text-white px-3 py-1 rounded" >Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

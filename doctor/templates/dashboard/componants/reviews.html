@@ -1,0 +1,29 @@
+<main class="p-2">
+    <h1 class="text-gray-500 my-3">Total {{reviews|length}} reviews</h1>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {% for r  in reviews %}
+      <div class="shadow rounded text-gray-700">
+        <header class="border-b border-gray-200 p-2 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="pb-2 flex justify-center items-center w-7 h-7 rounded-full border border-indigo-500 overflow-hidden">
+                    <span class="block font-bold text-[18px] pt-1">{{r.appointment.patient.name|slice:2}}</span>
+                </div>
+                <div class="leading-2">
+                    <p class="text-xs">{{r.appointment.patient.name}}</p>
+                </div>
+            </div>
+            <div class="text-orange-500 text-sm">
+                <span>{{r.rating}}</span>
+                    <i class="fa-solid fa-star"></i>
+            </div>
+        </header>
+        <section class="p-3 flex flex-col justify-between">
+            <div>
+                {{r.review}}
+            </div>
+            <div class="text-xs text-gray-500">{{r.created_at}}</div>
+        </section>
+      </div>
+    {% endfor %}
+    </div>
+</main>

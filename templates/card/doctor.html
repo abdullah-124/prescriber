@@ -1,0 +1,17 @@
+<a href="{% url 'doctor' 'get' d.id %}"
+    class="hover:border-slate-400 border border-slate-200 rounded-lg overflow-hidden">
+    <div class="h-[140px]  p-5 pb-0 bg-slate-100 overflow-hidden">
+        {% if d.user.photo %}
+        <img class="w-auto mx-auto" src="{{d.user.photo.url}}" alt="">
+        {% else %}
+        <img class="w-auto mx-auto h-full" src="/media/image/blank_user.png" alt="">
+
+        {% endif %}
+    </div>
+    <div class="p-3 ">
+        <h6 class="font-medium text-sm text-orange-500 my-1"><i
+                class="me-1 text-xs fa-solid fa-star"></i>{{d.total_rating}}</h6>
+        <h1 class="font-medium">{{d.full_name}}</h1>
+        <h1 class="text-sm text-gray-500">{{d.specialty}}</h1>
+    </div>
+</a>

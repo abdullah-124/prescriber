@@ -1,0 +1,52 @@
+<form class="relative flex p-2 shadow-lg" id="medicine_form" action="">
+    <!-- Medicine field -->
+    <input required class=" w-full focus:outline-none border-b-1 border-gray-400 m-1" type="text"
+        placeholder="Medicine Name" name="drugs" id="drugs">
+    <a id="expand_btn" onclick="expand_form()" class="block p-2 rounded border border-gray-200 hover:border-gray-400">
+        <i class="text-xl fa-solid fa-arrow-right-from-bracket"></i>
+    </a>
+    <!-- suggestion box -->
+    <ul id="search-results" class="absolute left-0 right-0 top-full w-full bg-white rounded-sm shadow-lg z-10 hidden ">
+        <h1 class="text-lg">result</h1>
+    </ul>
+    <div id="expanded_field" class="hidden w-full ">
+        <!-- frequency field -->
+        <input required class="w-full focus:outline-none border-b-1 border-solid border-gray-400 m-1" type="text"
+            placeholder="Frequency" name="frequency" id="frequency" list="frequency_list">
+
+        <!-- timing field -->
+        <input required class="w-full focus:outline-none border-b-1 border-solid border-gray-400 m-1" type="text"
+            placeholder="Timing" name="timing" list="timing_list">
+
+        <!-- duration field -->
+        <input required class="w-full focus:outline-none border-b-1 border-solid border-gray-400 m-1" type="text"
+            placeholder="Duration" name="instruction" list="duration_list">
+        <!-- submition button -->
+        <button class="mx-auto border-1 border-solid border-black px-2 py-1 rounded-sm hover:bg-black hover:text-white"
+            type="submit">Add</button>
+    </div>
+    <!-- all data list  -->
+    <datalist id="frequency_list">
+        <option value="1+1+1">
+        <option value="1+0+1">
+        <option value="0+0+1">
+    </datalist>
+    <datalist id="timing_list">
+        <option value="After Meal">
+        <option value="Before Meal">
+    </datalist>
+    <datalist id="duration_list">
+        <option value="Continue">
+        <option value="3 Days">
+        <option value="7 Days">
+        <option value="15 Days">
+        <option value="30 Days">
+    </datalist>
+
+
+    <!-- search result -->
+
+</form>
+<script>
+    // 
+</script>

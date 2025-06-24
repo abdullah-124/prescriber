@@ -1,0 +1,121 @@
+<header class="relative z-100 bg-white">
+    <div class="lg:px-8 border-b border-gray-200 px-2">
+        <div class="flex justify-between items-center">
+            <div onclick="menu_bar_toggle(event)" class="block md:hidden lg:hidden">
+                <i class="text-2xl fa-solid fa-bars"></i>
+            </div>
+            <div>
+                <img width="150" src="/media/image/logo.png" alt="">
+            </div>
+            <div class="lg:block md:block hidden">
+                <ul id="menu_item"
+                    class="uppercase flex lg:flex-row md:flex-row flex-col flex-wrap gap-2 text-gray-700 font-medium text-sm lg:text-xs md:text-xs">
+                    <li class="hover:text-black"><a class="p-2" href="{% url 'home' %}">Home</a></li>
+                    <li class="hover:text-black"><a class="p-2" href="{% url 'doctor_list' %}">Doctor</a></li>
+                    <li class="hover:text-black"><a class="p-2" href="{% url 'appointment_list' %}">Appointment</a></li>
+
+                    {% if user.role == 'patient' %}
+
+                    <li class="hover:text-black"><a class="p-2" href="{% url 'doctor_registration' %}">Become a
+                            doctor</a></li>
+                    {% elif user.role == 'doctor' %}
+                    <li class="hover:text-black font-bold"><a class="p-2" href="{% url 'dashboard_overview' %}">Dashboard</a></li>
+                    {% else %}
+                    <li class="hover:text-black"><a class="p-2" href="{% url 'demo_prescription' %}">Demo
+                            Prescription</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+            <!-- mobile nav -->
+            <div id="menu_item_mobile"
+                class="text-lg overflow-hidden min-w-1/2 z-10 hidden fade absolute top-0 left-0 py-3  bg-white h-screen">
+                <div onclick="menu_bar_toggle(event)" class="p-2">
+                    <i class="text-2xl  fa-solid fa-close"></i>
+                </div>
+            </div>
+
+            <div class="font-medium flex items-center">
+                {% if user.is_authenticated %}
+
+                <!-- dropdown -->
+                <div class="relative text-gray-700 ">
+                    <button onclick="document.getElementById('ac_menu').classList.toggle('hidden')"
+                        class=" flex items-center">
+                        <div
+                            class="overflow-hidden w-10 h-10 bg-indigo-500 hover:bg-indigo-600 text-white rounded-full border border-indigo-500">
+                            {% if user.photo %}
+                            <img class="w-full h-full object-cover" src="{{user.photo.url}}" alt="">
+                            {% else %}
+                            <p class="block font-medium text-2xl">{{user.username|slice:2}}</p>
+                            {% endif %}
+                        </div>
+                    </button>
+                    <!-- dropdown menubar -->
+                    <div id="ac_menu" class="z-10 fade hidden absolute right-0 bg-white p-2 shadow top-0 min-w-[200px]">
+                        <div class="flex justify-between items-start pb-2 border-b border-gray-200">
+                            <div class="text-[10px]">
+                                <h1>{{user.username}}</h1>
+                                <h1>{{user.first_name}} {{user.last_name}}</h1>
+                                <h1 class="">{{user.email}}</h1>
+                            </div>
+                            <button onclick="document.getElementById('ac_menu').classList.toggle('hidden')"
+                                class="text-red-500 hover:text-red-700 text-2xl">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                            </button>
+                        </div>
+                        <ul class="text-sm flex flex-col  py-3 w-full">
+                            <li class="hover:bg-gray-100 rounded w-full"><a class="p-2 block"
+                                    href="{% url 'user_profile' %}"><i class="px-2 fa-solid fa-user"></i>
+                                    Profile</a>
+                            </li>
+                            {% if user.role == 'doctor' %}
+                            <li class="hover:bg-gray-100 rounded w-full"><a class="p-2 block"
+                                    href="{% url 'dashboard_overview' %}"><i
+                                        class="px-2 fa-solid fa-table-cells-row-unlock"></i>Dashboard</a></li>
+                            {% endif %}
+                            <li class="hover:bg-gray-100 rounded w-full"><a class="p-2 block"
+                                    href="{% url 'user_profile' 'update' %}"><i class="px-2 fa-solid fa-gear"></i>Update
+                                    Profile</a>
+                            </li>
+                            <li class="hover:bg-gray-100 rounded w-full"><a class="p-2 block"
+                                    href="{% url 'user_profile' 'password_change' %}"><i
+                                        class="px-2 fa-solid fa-unlock-keyhole"></i>Change Password</a>
+                            </li>
+                            <li class="hover:bg-gray-100 rounded w-full"><a class="p-2 block"
+                                    href="{% url 'appointment' 'my_appointments' %}"><i
+                                        class="px-2 fa-solid fa-calendar-check"></i>My Appointment</a>
+                            </li>
+                            <li class="hover:bg-gray-100 rounded w-full"><a class="p-2 block"
+                                    href="{% url 'my_patients' %}"><i class="px-2 fa-solid fa-user-nurse"></i>My
+                                    Patients</a>
+                            </li>
+                            <button onclick="logout_modal_toggle(event)"
+                                class="m-2 text-white bg-indigo-500 p-1 px-2 rounded hover:bg-indigo-600">Logout
+                            </button>
+                        </ul>
+
+                    </div>
+                </div>
+
+                {% else %}
+                <a href="{% url 'user_login' %}"
+                    class="border border-indigo-500 text-white bg-indigo-500 p-1 px-2 rounded hover:bg-indigo-600 me-2">Login</a>
+                <a href="{% url 'user_register' %}"
+                    class="hover:text-white hover:bg-indigo-500 p-1 px-2 rounded border border-indigo-500">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        const menu_item_mobile = document.getElementById('menu_item_mobile')
+        const menu_item = document.getElementById('menu_item')
+        const cloned = menu_item.cloneNode(true);
+        menu_item_mobile.appendChild(cloned);
+        // console.log(menu_item_mobile)
+        function menu_bar_toggle(e) {
+            e.preventDefault()
+            menu_item_mobile.classList.toggle('hidden')
+        }
+    </script>
+</header>

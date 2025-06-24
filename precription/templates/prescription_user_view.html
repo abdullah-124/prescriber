@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+<header class="px-7 w-full max-w-[794px] mx-auto py-5 mb-5 flex flex-wrap justify-center gap-3 border-b border-gray-200 text-sm">
+    <div class="flex gap-3 w-full justify-between items-center">
+        <div>
+            <div class="flex justify-between text-xs font-bold">
+                <label for="zoom_label_input">Zoom</label>
+                <p id="zoom_label_indicator">100</p>
+            </div>
+            <input min="30" max="100" step="10" value="100"
+                class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-" type="range" name="zoom_label"
+                id="zoom_label_input">
+        </div>
+        <div class="relative my_dropdown_box">
+            <div class="btn">Save As </div>
+            <ul class="absolute right-0 bg-white rounded-lg shadow-lg py-5 z-5 min-w-40" id="action_drop_down">
+                <li onclick="print_prescription()" class="hover:bg-gray-200 p-2 block w-full">Print</li>
+                <li onclick="downloadAsImage()" class="hover:bg-gray-200 p-2 block w-full">Download as Pdf</li>
+                <li onclick="downloadAsImage()" class="hover:bg-gray-200 p-2 block w-full">Download as Image</li>
+            </ul>
+        </div>
+
+
+    </div>
+</header>
+<section class="overflow-x-scroll w-full">
+    <main id="prescription_wrapper" class="origin-top w-[794px] mx-auto text-[#000] bg-[#fff]">
+        <div class="a4 w-full h-full p-8 shadow flex flex-col justify-between">
+            <header>
+                <div class="flex justify-between pb-3">
+                    <div class="text-xs">
+                        <h5 class="text-lg font-semibold">{{doctor.full_name}} </h5>
+                        <h6>{{doctor.qualification}} | Reg. No: {{doctor.registration_no}} |</h6>
+                        <h6>Mob. No: {{doctor.user.phone_number}}</h6>
+                    </div>
+                    <div class="text-end text-xs">
+                        <h5 class="text-lg font-semibold">{{doctor.hospital_name}} </h5>
+                        <h6>{{doctor.chamber_address}}</h6>
+                        <h6>Mob. No: {{doctor.contact}}</h6>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <!-- patient info -->
+                    <div class="py-4 flex justify-between gap-1">
+                        <h1>Name: <span class="font-medium">{{patient.name}} </span><span
+                                class="text-xs">({{patient.gender}})</span></h1>
+                        <h1>Age: <span class="font-medium">{{patient.age}} </span></h1>
+                        <h1>Mobile: <span class="font-medium">{{patient.mobile}} </span></h1>
+                        <h1>Date: <span class="font-medium">{{appointment.session.appointment_date}} </span></h1>
+                    </div>
+
+                </div>
+                <hr>
+            </header>
+            <!-- body section -->
+            <section class="w-full flex-1 flex h-full ">
+                <div class="w-1/3 p-1 py-2 flex flex-col justify-between border-r text-sm">
+                    <div class="text-xs font-medium">
+                        <h1>Appointment id: {{appointment.id}}</h1>
+                        <h1>Session id: {{appointment.session.id}}</h1>
+                        <h1>Patient id: {{patient.id}}</h1>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Reason</h4>
+                        <p>{{appointment.reason|safe|linebreaksbr}}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Diagnosis</h4>
+                        <p>{{rx.diagnosis|safe|linebreaksbr}}</p>
+                    </div>
+                    <div class="">
+                        <h4 class="font-bold">Body Traits</h4>
+                        <p>Blood- <span class="font-bold">{{rx.blood}}(ve)</span></p>
+                        <p>BP- <span class="font-bold">{{rx.bp}}</span></p>
+                        <p>Weight- <span class="font-bold">{{rx.weight}} KG</span></p>
+                        <p>Temperature- <span class="font-bold">{{rx.temperature}} F</span></p>
+                        <p>Glucose- <span class="font-bold">{{rx.bg_after}}</span> <span class="text-xs">After
+                                Meal</span>
+                        </p>
+                        <p>Glucose- <span class="font-bold">{{rx.bg_before}}</span> <span class="text-xs">Before
+                                Meal</span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Examination</h4>
+                        <p>{{rx.examination|safe|linebreaksbr}}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Instructoin</h4>
+                        <p class="">{{rx.instruction|safe|linebreaksbr}}</p>
+                    </div>
+
+                </div>
+                <div class="w-2/3">
+                    <h1 class="text-2xl p-2 font-bold ">RX,</h1>
+                    <div class="px-2">
+                        <div class="grid grid-cols-5 border-b font-bold py-3 ">
+                            <h1 class="col-span-3">Medicine Name </h1>
+                            <h1 class="text-center">Dosage</h1>
+                            <h1 class="text-end">Duration</h1>
+                        </div>
+                        {% for m in medications %}
+                        <div class="grid grid-cols-5 text-sm py-1 items-center">
+                            <h1 class="col-span-3">{{forloop.counter}}. {{m.drugs}}</h1>
+                            <h1 class="text-xs text-center">{{m.frequency}} <br>{{m.timing}}</h1>
+                            <h1 class="text-end">{{m.instruction}}</h1>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            <footer class="">
+                <div class="border-t  pt-2 text-center">
+
+                    <h1 class="font-light">{{doctor.working_hours|safe|linebreaksbr}}</h1>
+                    <div class="text-sm">
+                        <p>Phone: {{doctor.contact}} | Email: {{doctor.user.email}}</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+</section>
+{% endblock body %}
+
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+
+    const prescription_wrapper = document.getElementById('prescription_wrapper')
+    const zoom_label_input = document.getElementById('zoom_label_input')
+    const zoom_label_indicator = document.getElementById('zoom_label_indicator')
+    zoom_label_input.addEventListener('input', () => {
+        let val = zoom_label_input.value
+        zoom_label_indicator.innerText = val
+        prescription_wrapper.style.transform = `scale(${val}%)`
+    })
+    function print_prescription() {
+        const originalContents = document.body.innerHTML;
+        document.body.innerHTML = prescription_wrapper.innerHTML;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
+    }
+    function downloadAsImage() {
+        html2canvas(prescription_wrapper, {
+            width: prescription_wrapper.offsetWidth,
+            height: prescription_wrapper.offsetHeight,
+            scale: 2,
+            backgroundColor: null,
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `{{patient.name}}_{{appointment.appointment_date}}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+</script>
+{% endblock script %}

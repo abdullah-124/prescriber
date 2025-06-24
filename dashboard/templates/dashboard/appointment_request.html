@@ -1,0 +1,74 @@
+<main>
+    <section class="lg:p-4 my-4">
+
+
+        <div class="py-4">
+            <h1 class="text-lg text-gray-700 font-medium">Appointmets Request</h1>
+
+        </div>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 text-center">
+                    <tr>
+                        <th scope="col" class="text-left px-6 py-3">
+                            Visit No
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Patient
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Gender
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Serial
+                        </th>
+                        <th colspan="2" scope="col-" class="text-center px-6 py-3">
+                            Time
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-end">
+                            Action
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in appointment_request %}
+                    <tr class="text-center bg-white border-b  border-gray-200 hover:bg-gray-50 ">
+                        <td class="text-left px-6 py-4">
+                            #{{p.id}}
+                        </td>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                            {{p.patient.name}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{p.patient.gender}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{p.serial_no}}
+                        </td>
+                        
+                        <td colspan="2"  class="text-[8px] lg:text-xs px-6 py-4">
+                            
+                            {{p.session.appointment_date}} |
+                            {{p.session.start_time}}-{{p.session.end_time}}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            {% if p.status == 'Seen' %}
+                            <a href="{% url 'prescription_update' p.id %}"
+                                class="font-medium text-blue-600  hover:underline">Edit</a>
+                              {% else %}
+                              <a href="{% url 'patient_profile_doctor_view' p.id %}"
+                                class="font-medium text-blue-600  hover:underline">Call</a>
+                            {% endif %}
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+    
+</main>

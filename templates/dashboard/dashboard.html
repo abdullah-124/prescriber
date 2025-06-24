@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href='{% static "/css/style.css" %}'>
+    <title>Prescriber</title>
+</head>
+
+<body id="body" class="max-w-[1500px] mx-auto">
+    <main class="min-h-screen relative">
+        {% include 'header.html' %}
+        <!-- navigation -->
+        <section class="flex ">
+            <section class="lg:block md:block hidden py-4 min-w-[200px] h-full">
+                <ul class="text-sm text-gray-600 px-2 font-medium">
+                    <li class="p-2 w-full hover:bg-indigo-100 rounded flex items-center">
+                        <i class="text-lg me-2 fa-solid fa-border-all"></i>
+                        <a href="{% url 'dashboard_overview' %}">Overview</a>
+                    </li>
+                    <li class="p-2 w-full hover:bg-indigo-100 rounded flex items-center">
+                        <i class="text-lg me-2 fa-regular fa-calendar-days"></i>
+                        <a href="{% url 'dashboard_appointment' 'add' %}">Appointment</a>
+                    </li>
+                    <li class="p-2 w-full hover:bg-indigo-100 rounded flex items-center">
+                        <i class="text-lg me-2 fa-regular fa-clock"></i>
+                        <a href="{% url 'dashboard_appointment_list' %}">Schedule</a>
+                    </li>
+                    <li class="p-2 w-full hover:bg-indigo-100 rounded flex items-center">
+                        <i class="text-lg me-2 fa-solid fa-user-doctor"></i>
+                        <a href="{% url 'doctor_profile' %}">Profile</a>
+                    </li>
+                    <li class="p-2 w-full hover:bg-indigo-100 rounded flex items-center">
+                        <i class="text-lg me-2 fa-solid fa-file-prescription"></i>
+                        <a href="{% url 'demo_prescription' %}">Demo Prescription</a>
+                    </li>
+                    <li class="p-2 w-full hover:bg-indigo-100 rounded flex items-center">
+                        <i class="text-lg me-2 fa-solid fa-right-from-bracket"></i>
+                        <a onclick="logout_modal_toggle(event)" href="" >Logout</a>
+                    </li>
+
+                </ul>
+            </section>
+
+
+            <section class="relative p-4 w-full h-full border-l border-gray-200 min-h-[80vh]">
+
+                {% block body %}
+
+                {% endblock body %}
+            </section>
+        </section>
+        <!-- navbar mobile view  -->
+        <section class="lg:h-10 md:h-10 h-[100px]">
+            <section class=" fixed w-full z-10 bottom-0 left-0 block lg:hidden md:hidden">
+                <div class="bg-gray-100">
+                    {% include 'dashboard_nav_mobile.html' %}
+                </div>
+            </section>
+        </section>
+        <!-- confirmation modal -->
+        <section>
+            {% include 'modal/logout_confirmation.html' %}
+        </section>
+        <!-- message modal if message -->
+        {% if messages %}
+          {% include 'modal.html' %}
+        {% endif %}
+    </main>
+    <script src="https://kit.fontawesome.com/b3dbf49411.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

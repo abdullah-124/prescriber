@@ -1,0 +1,62 @@
+{% extends "dashboard/dashboard.html" %}
+
+{% block body %}
+<main class="p-">
+    <header class="lg:p-4">
+        <div class="my-2 mb-5">
+            <h1 class="text-lg font-semibold">Welcome, DR. {{user.first_name}}</h1>
+            <p class="text-sm text-gray-500">Have a nice day at work</p>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            <div class="py-4 w-full rounded bg-indigo-500 text-white hover:bg-indigo-600">
+                <div class="flex justify-around items-center">
+                    <div class="text-4xl "><i class="fa-solid fa-calendar"></i></div>
+                    <div>
+                        <h1 class="text-2xl font-bold">{{total_sessions}}</h1>
+                        <p class="text-xs">Session</p>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4 rounded bg-rose-500 text-white hover:bg-rose-600">
+                <div class="flex justify-around items-center">
+                    <div class="text-4xl"><i class="fa-solid fa-briefcase"></i></div>
+                    <div>
+                        <h1 class="text-2xl font-bold">{{total_bookings}}</h1>
+                        <p class="text-xs">Appointments</p>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4  rounded bg-sky-500 text-white hover:bg-sky-600">
+                <div class="flex justify-around items-center">
+                    <div class="text-4xl"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <h1 class="text-2xl font-bold">{{total_patients}}</h1>
+                        <p class="text-xs">Patient</p>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4  rounded bg-amber-500 text-white hover:bg-amber-600">
+                <div class="flex justify-around items-center">
+                    <div class="text-4xl"><i class="fa-solid fa-star-half-stroke"></i></div>
+                    <div>
+                        <h1 class="text-2xl font-bold">{{total_reviews}}</h1>
+                        <p class="text-xs">Rating (<span class="font-medium">{{total_rating}}</span>) </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- running appointments -->
+    {% if running_patients %}
+      <section>
+        {% include './running_appointments.html' %}
+    </section>
+    {% endif %}
+    <!-- requested apointments -->
+    {% if appointment_request %}
+      <section>
+        {% include './appointment_request.html' %}
+    </section>
+    {% endif %}
+</main>
+{% endblock body %}

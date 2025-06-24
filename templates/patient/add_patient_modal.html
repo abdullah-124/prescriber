@@ -1,0 +1,58 @@
+<main>
+
+    <section class="hidde z-100 absolute w-full top-0 left-0 flex justify-center  backdrop-blur-[1px]"
+        id="add_patient_modal">
+        <!-- <button onclick="patient_modal(event)" class="p-1 px-2 border border-indigo-500 hover:bg-indigo-500 hover:text-white rounded transition">Add
+            Patient</button> -->
+        <section class="lg:w-1/3 md:w-2/3 h-auto w-full bg-white shadow p-5 rounded">
+            <header class="flex justify-between items-center text-gray-500 border-b border-gray-200 pb-2">
+                <h1>Add New Patient</h1>
+                <button onclick="patient_modal(event)" class="text-red-500 text-xl"><i
+                        class="fa-solid fa-circle-xmark"></i></button>
+            </header>
+            <form id="patient_form" class="my-2 text-gray-700 font-medium" action="">
+                <label class="text-sm pt-2" for="name">Name: </label>
+                <input required class="input" type="text" name="name" placeholder="Full name" id="">
+                <label class="text-sm pt-2" for="dob">Date of birth: </label>
+                <input required class="input" type="date" name="dob">
+                <label class="text-sm pt-2" for="mobile">Phone Number: </label>
+                <input required class="input" type="tel" name="mobile">
+                <!-- <label class="text-sm pt-2" for="name">Reason: </label>
+                <input required class="input" type="text"> -->
+                <div class="flex justify-between my-3">
+                    <button type="submit"
+                        class="p-1 px-2 border bg-indigo-500 hover:bg-indigo-600 text-white rounded transition">Add</button>
+                    <button onclick="patient_modal(event)"
+                        class="p-1 px-2 border bg-red-500 hover:bg-red-600 text-white rounded transition">Close</button>
+                </div>
+            </form>
+        </section>
+    </section>
+    <script>
+        const add_patient_modal = document.getElementById('add_patient_modal')
+        const patient_form = document.getElementById('patient_form')
+        function patient_modal(e) {
+            e.preventDefault()
+            add_patient_modal.classList.toggle('hidden')
+        }
+        patient_form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            form_data = new FormData(patient_form)
+            const patient_data = {}
+            form_data.forEach((value, key) => {
+                patient_data[key] = value
+            });
+            // console.log(data)
+            fetch('/patient/add_patient/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(patient_data)
+            })
+                .then(res => res.json())
+                .then(data => console.log(data))
+        })
+    </script>
+</main>

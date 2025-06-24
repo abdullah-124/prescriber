@@ -1,0 +1,50 @@
+<div id="message_modal" class="absolute top-0 left-0 w-full h-screen backdrop-blur-xs z-20 p-4">
+
+    <div class="flex w-full h-full justify-center items-center">
+        <div id="modal_content"
+            class="fade  relative w-full md:w-2/3 lg:w-1/2 min-h-1/2 flex justify-center items-center shadow-2xl rounded bg-white border border-gray-300">
+            <div class="absolute top-[-10px] right-[-10px] ">
+                <button onclick="document.getElementById('message_modal').classList.add('hidden')"
+                    class="text-gray-400 hover:text-gray-500">
+                    <i class="text-2xl text-red-600 hover:text-red-500 fa-solid fa-circle-xmark"></i>
+
+                </button>
+            </div>
+            <div class="d-flex justify-center items-center text-center p-5">
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="text-green-600 text-2xl">
+                    <div class="text-8xl mb-5"><i class="fa-regular fa-circle-check"></i></div>
+                    <div>{{message|safe}}</div>
+                </div>
+                {% elif message.tags == "warning"%}
+                <div class="text-yellow-600 text-2xl">
+                    <div>{{message|safe}}</div>
+                </div>
+                
+                {% elif message.tags == "error"%}
+                <div class="text-red-600 text-2xl">
+                    <div>{{message|safe}}</div>
+                </div>
+                {% else %}
+                <div class="text-cyan-600 text-2xl">
+                    <div>{{message|safe}}</div>
+                </div>
+
+
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const message_modal = document.getElementById('message_modal');
+    const modal_content = document.getElementById('modal_content')
+    message_modal.addEventListener('click', (e) => {
+        // console.log(e.target)
+        if (!modal_content.contains(e.target)) {
+            message_modal.classList.add('hidden')
+        }
+    })
+</script>

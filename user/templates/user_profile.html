@@ -1,0 +1,23 @@
+{% extends "user_profile_base.html" %}
+
+{% block content %}
+<section class="text-center text-gray-700">
+    <div class="overflow-hidden -translate-y-15 w-30 h-30  rounded-full mx-auto  shadow bg-gray-100 flex justify-center items-center">
+        {% if user.photo %}
+          <img class="w-full h-full object-cover" src="{{user.photo.url}}" alt="">
+            {% else %}
+                <h1 class="text-7xl font-bold">{{user.username|slice:2}}</h1>
+          {% endif %}
+    </div>
+    <section class="-translate-y-10">
+        <h1 class="font-medium text-lg">{{user.username}}</h1>
+        <h1 class="font-medium text-base">{{user.phone_number}}</h1>
+        <h1 class="font-medium text-xl">{{user.first_name}} {{user.last_name}}</h1>
+        <h1 class="font-medium text-base">{{user.email}}</h1>
+    </section>
+   <div class="flex flex-col gap-y-1">
+     <a class="btn block text-center w-full" href="{% url 'user_profile' 'update' %}">Edit Profile</a>
+   </div>
+
+</section>
+{% endblock content %}

@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<section class="relative w-full">
+    <div class="flex top-0 absolute w-full h-full z-[-1]">
+        <div class="hidden lg:block w-2/3 h-full bg-blue-500"></div>
+        <div class="lg:w-1/3 w-full h-full bg-indigo-500"></div>
+    </div>
+    <div
+        class="p-10 w-full lg:w-2/3 m-auto text-white grid gird-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-center items-center">
+        <div class="p-5">
+            <h1 class="text-2xl text-white font-medium my-2">Get quick professional consultation</h1>
+            <div class="p-2 flex items-center border-b border-blue-50">
+                {% if doctor.user.photo %}
+                <div class="w-10 h-10 rounded-full bg-white overflow-hidden">
+                    <img src="{{doctor.user.photo.url}}" alt="">
+                </div>
+                {% else %}<i class="text-3xl fa-solid fa-user-doctor"></i>{% endif %}
+                <div class="ms-3 ">
+                    <a href="{% url 'doctor' 'get' doctor.id %}" class="font-medium ">{{doctor.full_name}} </a>
+                    <p class="text-xs">{{doctor.qualification}}</p>
+                </div>
+            </div>
+
+            <div class="p-2 flex items-center border-b border-blue-50">
+                <i class="text-3xl fa-solid fa-clock"></i>
+                <div>
+                    <p class="text-sm ms-3 "><span class="font-medium">Date:
+                        </span>{{session.appointment_date}} </p>
+                    <p class="text-sm ms-3  "><span class="font-medium">Time:
+                        </span>{{session.start_time}} - {{session.end_time}} </p>
+                </div>
+            </div>
+            <div class="p-2 flex items-center border-b border-blue-50">
+                <i class="text-3xl fa-solid fa-location-dot"></i>
+                <div class="ms-3">
+                    <p class="text-sm  ">
+                        <span class="font-medium">Address: </span>{{doctor.chamber_address}}
+                    <p class="text-sm  ">
+                        <span class="font-medium">Mobile: </span>{{doctor.contact}}
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 flex items-center border-b border-blue-50">
+                <i class="text-3xl fa-solid fa-star"></i>
+                <div class="ms-3">
+                    <p class="text-sm  ">
+                        <span class="font-medium">Reviews: </span>{{doctor.total_review}}
+                    <p class="text-sm  ">
+                        <span class="font-medium">Rating: </span><span class="font-bold">{{doctor.total_rating}}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 flex items-center border-b border-blue-50">
+                <i class="text-3xl fa-solid fa-clipboard-check"></i>
+                {% if session.is_available %}
+                <p class="text-sm ms-3 font-base ">{{session.total_booking}} out of {{session.seat}} </p>
+                {% else %}
+                <p class="text-sm ms-3 font-base ">No Seat Available</p>
+                {% endif %}
+            </div>
+
+
+        </div>
+        <div class="bg-white text-black p-5 rounded">
+            <form method="post" id="patient_booking_form" action="">
+                {% csrf_token %}
+                <!-- {{patient_form|crispy}} -->
+                <div class="relative">
+                    {{patient_form.name|as_crispy_field}}
+                    <div class="hidden shadow-2xl text-sm text-gray-600 " id="patients_suggestion_box">
+                        <div class="border-b border-gray-200 py-1 px-2 cursor-pointer hover:bg-gray-200 rounded">
+                            <h1>Md. Abdullah Sakib</h1>
+                            <div class="flex justify-between items-center">
+                                <p><i class="fa-solid fa-phone"></i> 0199923292</p>
+                                <p>DOB: 23/4/2021</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{patient_form.dob|as_crispy_field}}
+                {{patient_form.mobile|as_crispy_field}}
+                {{patient_form.reason|as_crispy_field}}
+                {% if session.is_available %}
+                <button class="float-right hover:bg-indigo-600 bg-indigo-500 px-3 py-1 text-white rounded"
+                    type="submit">Book</button>
+                {% else %}
+                <button disabled class="float-right bg-gray-500 px-3 py-1 text-white rounded"
+                    type="submit">Book</button>
+
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+</section>
+
+
+
+{% endblock body %}
+
+{% block script %}
+<script>
+    const data = "{{my_patients|escapejs}}"
+    const my_patients = JSON.parse(data)
+    const patient_booking_form = document.getElementById('patient_booking_form')
+    let timeout;
+
+    // console.log(my_patients)
+    const patients_suggestion_box = document.getElementById('patients_suggestion_box')
+    const id_name = document.getElementById('id_name')
+    id_name.addEventListener('input', () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            const q = id_name.value
+            console.log(q)
+            if (q.length >= 2) filter_patient(q)
+            else {
+                patients_suggestion_box.classList.add('hidden')
+            }
+
+        }, 500);
+
+    })
+    let result = []
+    function filter_patient(q) {
+        result = my_patients.reduce((acc, patient) => {
+            if (acc.length >= 3) return acc
+            if (patient.name.toLowerCase().includes(q.toLowerCase())) {
+                acc.push(patient);
+            }
+            return acc;
+        }, []);
+        console.log(q, 'result', result)
+        if (result.length) {
+            patients_suggestion_box.classList.remove('hidden')
+            show_suggestion_box()
+        }
+        else {
+            patients_suggestion_box.classList.add('hidden')
+        }
+    }
+    function show_suggestion_box() {
+        patients_suggestion_box.innerHTML = '';
+        result.forEach((p, i) => {
+            patients_suggestion_box.innerHTML += `
+                <div onclick='set_patient_data(${i})' class="border-b border-gray-200 py-1 px-2 cursor-pointer hover:bg-gray-200 rounded">
+                    <div class="flex justify-between items-center">
+                            <div>
+                                <h1>${p.name}</h1>
+                                <p><i class="fa-solid fa-phone"></i> ${p.mobile}</p>
+                            </div>
+                            <div class="text-sm text-end">
+                                <h1 class='inline px-2 rounded-lg text-indigo-500 bg-indigo-100'>${p.label}</h1>
+                                <p>${p.dob}</p>
+                            </div>
+                    </div>
+                </div>
+            `
+        })
+    }
+    function set_patient_data(index) {
+        const patient = result[index]
+        patient_booking_form.querySelector('input[name="name"]').value = patient.name;
+        patient_booking_form.querySelector('input[name="dob"]').value = patient.dob;
+        patient_booking_form.querySelector('input[name="mobile"]').value = patient.mobile;
+        patients_suggestion_box.classList.add('hidden')
+
+    }
+</script>
+{% endblock script %}

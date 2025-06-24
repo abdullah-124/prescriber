@@ -1,0 +1,98 @@
+{% extends "dashboard/dashboard.html" %}
+
+{% block body %}
+<main class="lg:p-4 my-4">
+    <section class=" relative">
+
+        {% include 'dashboard/add_patient_form.html' %}
+        <div class="flex justify-between flex-wrap py-4">
+            <div>
+                <h1 class="text-lg text-gray-700 font-medium">{{session.appointment_date}}</h1>
+                <p class="text-sm text-gray-700"><span class="font-bold">Time: </span> {{session.start_time}} -
+                    {{session.end_time}}</p>
+                <p class="text-sm text-gray-700"><span class="font-bold">Total Patient: </span>{{session.total_booking}}
+                </p>
+                <p class="text-sm text-gray-700"><span class="font-bold">Seat: </span> {{session.seat}}</p>
+                <p class="text-sm text-gray-700"><span class="font-bold">Booking: </span>
+                    {% if session.is_available %}
+                    <span class="text-indigo-500">Available</span>
+                    {% else %}
+                    <span class="text-red-500">Not Available</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="">
+                <a href="{% url 'appointment_operation' 'edit' session.id %}"
+                    class="border bg-indigo-500 hover:bg-indigo-600 text-white p-1 px-2 rounded">Edit</a>
+                <a onclick="patient_modal(event)"
+                    class="p-1 px-2 border border-indigo-500 hover:bg-indigo-500 hover:text-white rounded transition">Add Patient</a>
+            </div>
+
+        </div>
+        {% if patients %}
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Visit No
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Patient
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Gender
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Serial
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-end">
+                            Action
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in patients %}
+                    {% if p.status == 'Seen' %}
+                    <tr class=" border-b border-gray-200 bg-indigo-100 ">
+                        {% elif p.status == 'Running' %}
+                    <tr class=" border-b border-gray-200 bg-orange-200 ">
+                        {% else %}
+                    <tr class="bg-white border-b border-gray-200 hover:bg-gray-50 ">
+                        {% endif %}
+                        <td class="px-6 py-4">
+                            #{{p.id}}
+                        </td>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                            {{p.patient.name}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{p.patient.gender}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{p.status}}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            {% if p.status == 'Seen' %}
+                            <a target="_blank" href="{% url 'prescription_update' p.id %}"
+                                class="font-medium text-blue-600  hover:underline">Edit</a>
+                              {% else %}
+                              <a target="_blank" href="{% url 'patient_profile_doctor_view' p.id %}"
+                                class="font-medium text-blue-600  hover:underline">Call</a>
+                            {% endif %}
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <h1 class="text-gray-600">No Booking Have Done</h1>
+        {% endif %}
+
+    </section>
+</main>
+{% endblock body %}

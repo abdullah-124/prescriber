@@ -1,0 +1,39 @@
+<div class="shadow border hover:border-indigo-400 border-indigo-500 rounded-lg  overflow-hidden h-full">
+  <div class="flex  items-center justify-between  h-full">
+    <div class=" w-1/2 md:w-1/3 lg:w-1/3 h-full bg-indigo-500  text-white p-2 px-4 ">
+      <div class="flex flex-col justify-center items-center h-full">
+        <h1 class="text-md font-thin tracking-[10px] ps-2">{{session.appointment_date|date:"M"}}</h1>
+        <h1 class="text-6xl font-bold">{{session.appointment_date|date:"d"}}</h1>
+        <h1 class="text-md font-thin tracking-[10px] ps-2">{{session.appointment_date|date:"D"}}</h1>
+      </div>
+    </div>
+    <div class="w-1/2 md:w-2/3 lg:w-2/3 p-2 text-sm md:text-xs lg:text-xs">
+      <p class="flex items-center my-1 text-gray-700 font-medium  ">
+        <span class="text-black text-sm">{{session.doctor.full_name}}</span>
+        <p class="leading-3 text-[11px] text-gray-500">({{session.doctor.specialty}})</p>
+      </p>
+      <p class="flex items-center my-1 text-gray-700 font-medium  ">
+        <span class="font-bold me-2">Time: </span>
+        <span class="">{{session.start_time}} - {{session.end_time}}</span>
+      </p>
+      <p class="flex items-center my-1 text-gray-700 font-medium">
+        <span class="font-bold me-2">Seat:</span>
+        <span>{{session.total_booking}} Out of {{session.seat}}</span>
+      </p>
+      <p class="flex items-center my-1 text-gray-700 font-medium">
+        <span class="font-bold me-2">Booking:</span>
+        {% if session.is_available %} <span class="text-indigo-500">Avaiable</span>
+        {% else %} <span class="text-red-500">Not Available</span>
+        {% endif %}
+      </p>
+      <div class="mt-2 ">
+        {% if session.is_available %}
+        <a class="w-full  text-sm text-indigo-700 hover:text-indigo-800 font-medium"
+        href="{% url 'appointment' 'booking' session.id %}">Book now</a>
+        {% endif %}
+          
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+{% extends "prescription/prescription.html" %}
+{% load crispy_forms_tags %}
+
+{% block patient_info %}
+    {% include 'patient_info.html' %}
+{% endblock patient_info %}
+    
+{% block body %}
+<div class="my-2">
+    {% include 'medicines_part.html' %}
+</div>
+<!-- {{medications}} -->
+{% endblock body %}
+
+<!-- FOOTER -->
+{% block footer %}
+<form  method="post">
+    {% csrf_token %}
+    <input hidden type="text" name="json_medicines" id="json_medicines">
+    {{form.diagnosis|as_crispy_field}}
+    <div class="flex gap-2">
+        {{form.instruction|as_crispy_field}}
+        {{form.examination|as_crispy_field}}
+    </div>
+    <button class="w-full hover:bg-indigo-600 bg-indigo-500 text-white font-medium p-1 rounded mt-5"
+        type="submit">Update Now</button>
+</form>
+{% endblock footer %}
+
+ <!-- SCRTPT FILE -->
+{% block script %}
+<script>
+const json_medications = '{{medications|escapejs}}'
+const medications = JSON.parse(json_medications)
+if(medications.length){
+    medicines = medications
+    // console.log(medicines)
+    update_data()
+}
+</script>
+{% endblock script %}

@@ -1,0 +1,57 @@
+{% extends "prescription/prescription.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block patient_info %}
+    {% include 'patient_info.html' %}
+{% endblock patient_info %}
+    
+{% block body %}
+
+<main>
+
+    <div>
+        <h1 class="text-4xl my-2">
+            <i class="fa-solid fa-prescription"></i>
+        </h1>
+        {% include 'medicines_part.html' %}
+    </div>
+
+
+
+
+
+</main>
+{% endblock body %}
+
+{% block footer %}
+<div>
+    <form class="form-control" method="post" action="">
+        {% csrf_token %}
+        <!-- {{ form|crispy }} -->
+        {{form.diagnosis|as_crispy_field}}
+        <div class="grid grid-cols-2 gap-2">
+            <input hidden type="text" name="medicines" id="json_medicines">
+
+            <div>
+                {{form.examination|as_crispy_field}}
+            </div>
+            <div>
+                {{form.instruction|as_crispy_field}}
+            </div>
+        </div>
+
+        <button
+            class="hover:bg-stone-900 mt-1 w-full rounded-md bg-black text-white font-bold p-2 border-1 border-solid "
+            type="submit">Save Prescription</button>
+    </form>
+</div>
+{% endblock footer %}
+
+
+{% block script %}
+
+<script>
+    // 
+</script>
+{% endblock script %}

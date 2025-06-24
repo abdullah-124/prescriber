@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block body %}
+<section class="text-center py-5 px-3">
+    <h1 class="text-xl font-bold">Patient Serial</h1>
+
+
+
+    <div class="mt-5 relative lg:w-1/2 md:w-2/3 w-full mx-auto overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="p-6 text-xs flex justify-between items-end">
+            <div class="text-start">
+                <h1 class="text-lg font-medium">{{session.doctor.full_name}}</h1>
+                <p class="">{{session.doctor.qualification}}</p>
+                <p>{{session.doctor.specialty}}</p>
+            </div>
+            <div class="text-end">
+                <p>Session id: {{session.id}}</p>
+                <p>Date: {{session.appointment_date}}</p>
+                <p>Time: {{session.start_time}} - {{session.end_time}}</p>
+                <p>Total bookings: {{session.total_booking}} out of {{session.seat}}</p>
+            </div>
+        </div>
+        {% if not bookings %}
+          <h1 class="p-6 border-t border-gray-200">No booking has created</h1>
+          {% else %}
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Serial
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Patient
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Status
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Id
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in bookings %}
+                <tr
+                    class="{% if p.status == 'Seen' %}bg-indigo-200 {% elif p.status == 'Missing' %} bg-red-200 {% endif %} border-b border-gray-200 hover:bg-gray-50 ">
+                    <td class="px-6 py-4">
+                        {{p.serial_no}}
+                    </td>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        {{p.patient.name}}
+                    </th>
+                    <td class="px-6 py-4">
+                        {% if p.status == 'Running' %}
+                        <span class="text-orange-500 font-bold">{{p.status}}</span>
+                        {% else %}{{p.status}}
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{p.id}}
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        
+        {% endif %}
+    </div>
+
+</section>
+
+{% endblock body %}

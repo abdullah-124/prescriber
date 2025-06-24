@@ -1,0 +1,47 @@
+<main>
+  <form method="get" action="{% url 'search_appointment' %}">
+    <div class="w-full flex justify-between items-cente ">
+      <div class="w-full border border-gray-200 rounded-l-lg flex items-center text-gray-600 font-medium">
+        <input type="text" class="w-full p-2 outline-0 " value="{{request.GET.q}}"  name="q" id="q" placeholder="doctor name/speciality/hospital name/address/date">
+        <div class="relative">
+          <button class="p-2" id="calender_button"><i class="fa-solid fa-calendar-days"></i></button>
+          <input class="opacity-0 absolute right-0" type="date" name="" id="calender_input">
+        </div>
+      </div>
+      <button disabled id="submit_button" type="submit" class="bg-indigo-200 text-white rounded-r-lg p-3 "><i
+          class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </form>
+
+  <script>
+    const calender_button = document.getElementById('calender_button')
+    const calender_input = document.getElementById('calender_input')
+    const q = document.getElementById('q')
+    const submit_button = document.getElementById('submit_button')
+    calender_button.addEventListener('click', (e)=>{
+      e.preventDefault()
+      calender_input.showPicker?.() || document.getElementById("calendarInput").focus();
+    } )
+    calender_input.addEventListener('change', (e)=>{
+      e.preventDefault()
+      if(q.value) q.value += " "+ calender_input.value
+      else q.value = calender_input.value
+      submit_button.disabled = false
+      submit_button.classList.remove('bg-indigo-200')
+      submit_button.classList.add('bg-indigo-500')
+    })
+    q.addEventListener('input', (e)=>{
+      e.preventDefault()
+      if(q.value.length <= 2){
+        submit_button.disabled = true
+        submit_button.classList.remove('bg-indigo-500')
+        submit_button.classList.add('bg-indigo-200')
+      }
+      else{
+        submit_button.disabled = false
+        submit_button.classList.remove('bg-indigo-200')
+        submit_button.classList.add('bg-indigo-500')
+      }
+    })
+  </script>
+</main>

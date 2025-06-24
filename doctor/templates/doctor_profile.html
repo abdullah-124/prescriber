@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main class="max-w-[1200px] mx-auto p-5">
+    <section class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
+        <section class="">
+            <div class="bg-indigo-500 rounded-lg h-[300px] overflow-hidden">
+                {% if doctor.user.photo %}
+                <img class="w-full h-full object-cover" src="{{doctor.user.photo.url}}" alt="">
+                {% else %}
+                {% endif %}
+            </div>
+            <div class="p-2 text-center">
+                <h1 class="text-lg font-semibold">{% if doctor.full_name|slice:":3" != "Dr." %}
+                    Dr.
+                    {% endif %} {{doctor.full_name}}</h1>
+                <div id="doctor_speciality" class="flex flex-wrap justify-center text-xs font-medium text-white">
+                    <!-- doctor speciality -->
+                </div>
+                <div class="inline-flex mt-1 text-xs ">
+                    <span class="p-1 px-2 border rounded-full">{{doctor.experience_years}} Years</span>
+                    <span class="ms-1 p-1 px-2 border rounded-full text-orange-500">
+                        <i class="fa-solid fa-star me-1"></i>{{doctor.total_rating}}</span>
+                </div>
+                <div class="my-2 text-justify text-[13px] text-gray-600">{{doctor.description}}</div>
+            </div>
+        </section>
+        <section class="border border-gray-200 rounded-lg md:col-span-3 lg:col-span-3">
+            <div>
+                {% include 'dashboard/componants/my_profile.html' %}
+            </div>
+            
+
+
+
+        </section>
+    </section>
+    <!-- booking slots -->
+            {% if sessions|length %}
+            <div class="p-2 md:px-3 lg:px-4">
+                <h1 class="text-gray-700 font-medium pb-2 border-b border-gray-200">Booking Slot</h1>
+                <div class="my-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {% for session in sessions %}
+                    {% include 'card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <!-- booking slots end -->
+    <section>
+        <!-- releted doctors -->
+        {% if releted_doctor %}
+        <div class="p-2 md:px-3 lg:px-4">
+            <h1 class="text-gray-700 font-medium pb-2 border-b border-gray-200">Releted Doctors</h1>
+            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                {% for d in releted_doctor %}
+                {% include 'card/doctor.html' %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <!-- releted doctors end -->
+    </section>
+</main>
+{% endblock body %}
+
+{% block script %}
+<script>
+    colors = ['red', 'orange', 'indigo', 'purple', 'indigo', 'yellow', 'lime', 'blue', 'sky', 'slate', 'teal',]
+    const doctor_speciality = document.getElementById('doctor_speciality')
+    const specialities = '{{doctor.specialty}}'
+    specialities.split(',').forEach(k => {
+        const i = Math.round(Math.random() * 10)
+        console.log(i)
+        doctor_speciality.innerHTML += `<span class="m-1 rounded px-2 p-[1px] bg-${colors[i]}-500 mx-1">${k}</span>`
+    })
+</script>
+{% endblock script %}

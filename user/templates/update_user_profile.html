@@ -1,0 +1,47 @@
+{% extends "user_profile_base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<main>
+    <h1 class="text-lg py-3 mb-2 text-gray-700 font-bold text">Update Profile</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div
+            class="relative  w-30 h-30 flex justify-center rounded-full mx-auto  shadow bg-gray-100 border border-3 border-indigo-500">
+            <div class=" overflow-hidden rounded-full">
+                {% if user.photo %}
+                <img id="profilePreview" class="w-full h-full object-cover" src="{{user.photo.url}}" alt="">
+                {% else %}
+                <h1 class="text-8xl font-bold">{{user.username|slice:2}}</h1>
+                {% endif %}
+            </div>
+            <label class="absolute bg-indigo-500 hover:bg-indigo-600 text-white rounded-full bottom-0 right-0"
+                for="id_photo">
+                <i class="fa-solid fa-camera p-2"></i></label>
+        </div>
+        <input hidden type="file" name="photo" id="id_photo" accept="image/*">
+        {{form.first_name|as_crispy_field}}
+        {{form.last_name|as_crispy_field}}
+        {{form.phone_number|as_crispy_field}}
+        <button class="btn w-full" type="submit">Update</button>
+    </form>
+</main>
+{% endblock content %}
+
+{% block script %}
+<script>
+    const input = document.getElementById('id_photo');
+    const preview = document.getElementById('profilePreview');
+
+    input.addEventListener('change', () => {
+        const file = input.files[0];
+        if (file) {
+            if (file.size >  1024 * 1024) {
+                alert("Image too large. Max size is 1MB.");
+                input.value = ''; // clear the input
+                return;
+            }
+            preview.src = URL.createObjectURL(file);
+        }
+    });
+</script>
+{% endblock script %}

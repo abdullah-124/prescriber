@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main class="mt-5 max-w-[1200px] mx-auto lg:px-3 md:px-8 px-4">
+    
+    <form action="" class="my-10 flex justify-between items-center border border-indigo-400 rounded overflow-hidden">
+        <input value="{{request.GET.q}}" class="w-full py-2 px-3 outline-none" type="text" placeholder="Search doctor ..." name="q">
+        <button class="p-2   bg-indigo-500 hover:bg-indigo-600 text-white"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
+    {% if doctors %}
+    <section class="">
+        <p class="pb-5 text-sm text-gray-700"> {{doctors.end_index}} doctors out of {{doctors.paginator.count}}</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {% for d in doctors %}
+            {% include 'card/doctor.html' %}
+            {% endfor %}
+        </div>
+        <!-- pagination -->
+        <div class="mt-10 flex justify-center">
+            <div class="flex gap-2 font-medium ">
+                {% if doctors.has_previous %}
+                  <div class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{doctors.previous_page_number}}&q={{request.GET.q}}"><i class="fa-solid fa-chevron-left"></i></a>
+                </div>
+                {% endif %}
+                {% for i in doctors.paginator.page_range %}
+                {% if i == doctors.number %}
+                <div class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+                </div>
+                {% else %}
+                <div class="hover:bg-gray-300 rounded w-8 h-8 border border-gray-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% if doctors.has_next %}
+                  <div class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+                    <a class="p-2 " href="?page={{doctors.next_page_number}}&q={{request.GET.q}}"><i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <h1>No Doctors found...</h1>
+    
+      
+    {% endif %}
+</main>
+{% endblock body %}

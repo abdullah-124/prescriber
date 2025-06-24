@@ -1,0 +1,42 @@
+
+<main class="relative">
+    <div>
+        {% include 'action_modal.html' %}
+    </div>
+    <div>
+        <table class="w-full text-center">
+            <thead>
+                <th>SL</th>
+                <th class="text-start">Medicine Name</th>
+                <th>Dosage</th>
+                <th class="">Duration</th>
+                <th class="">Action</th>
+            </thead>
+            <tbody id="medicine_container">
+                <tr class="border-b-1 border-gray-300">
+                    <td>1</td>
+                    <td class="text-start">Demo</td>
+                    <td class="text-xs">
+                        <span>1+1+1</span><br>
+                        <span>After meal</span>
+                    </td>
+                    <td>7 days</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- form -->
+    <div class="relative">
+        <a class="z-5 blink cursor-pointer" onclick="document.getElementById('medicine_form_parent').classList.toggle('hidden')">
+            click to add medicine
+        </a>
+        <div id="medicine_form_parent" class=" absolute top-0 z-5 w-full bg-white hidden ">
+            {% include 'medicine_form.html' %}
+        </div>
+    </div>
+
+
+
+
+
+</main>

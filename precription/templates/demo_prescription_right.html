@@ -1,0 +1,29 @@
+<main class="h-auto relative">
+        
+    {% include 'action_modal.html' %}
+    <h1 class="text-2xl p-2 font-bold ">RX,</h1>
+    <div class="px-2">
+        <table class="w-full text-center">
+            <thead>
+                <th class="text-start">Medicine Name</th>
+                <th>Dosage</th>
+                <th>Duration</th>
+                <th class="hide_on_print text-end">Action</th>
+            </thead>
+        </div>
+        <tbody id="medicine_container">
+            
+        </tbody>
+        </table>
+        <!-- form -->
+        <div class="relative hide_on_print">
+            <a class="z-5 blink cursor-pointer"
+                onclick="document.getElementById('medicine_form_parent').classList.toggle('hidden')">
+                click to add medicine
+            </a>
+            <div id="medicine_form_parent" class=" absolute top-0 z-5 w-full bg-white hidden ">
+                {% include 'medicine_form.html' %}
+            </div>
+        </div>
+    </div>
+</main>

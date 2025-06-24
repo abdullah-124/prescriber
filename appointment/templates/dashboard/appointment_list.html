@@ -1,0 +1,53 @@
+{% extends "dashboard/dashboard.html" %}
+
+{% block body %}
+<main class="text-gray-700">
+  <!-- running  appointments -->
+  {% if running_sessions %}
+  <section class="mb-10 shadow-xl rounded-lg p-5">
+    <header class="mb-4 ">
+      <h3 class="font-medium text-red-500">Running Appointments</h3>
+      <p class="text-xs">Total<span class="mx-1 font-bold">{{running_sessions|length}}</span>Appointments</p>
+    </header>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      {% for session in running_sessions %}
+        {% include 'dashboard/session_card.html' %}
+      {% endfor %}
+    </div>
+  </section>
+  
+  
+  {% endif %}
+  <!-- today appointments -->
+  {% if todays_sessions %}
+  <section class="mb-10">
+    <header class="mb-4 ">
+      <h3 class="font-medium text-indigo-500">Today's Appointments</h3>
+      <p class="text-xs">Total<span class="mx-1 font-bold">{{todays_sessions|length}}</span>Appointments</p>
+    </header>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      {% for session in todays_sessions %}
+        {% include 'dashboard/session_card.html' %}
+      {% endfor %}
+    </div>
+  </section>
+  
+  {% endif %}
+
+  <!-- Upcomming appointments -->
+  {% if sessions %}
+  <section>
+    <header class="mb-4 ">
+      <h3 class="font-medium">Upcomming Appointments</h3>
+      <p class="text-xs">Total<span class="mx-1 font-bold">{{sessions|length}}</span>Appointments</p>
+    </header>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      {% for session in sessions %}
+        {% include 'dashboard/session_card.html' %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</main>
+<a href="{% url 'dashboard_appointment' 'all' %}" class="block my-5 text-indigo-500 hover:text-indigo-600">All Appointment</a>
+{% endblock body %}

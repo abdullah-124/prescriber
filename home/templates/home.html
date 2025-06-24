@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<main class="relative lg:p-10 p-8">
+    <section class="">
+        {% include 'banner.html' %}
+    </section>
+    <section class="">
+        {% include 'features.html' %}
+    </section>
+    <section>
+        {% include 'banner_2.html' %}
+    </section>
+    <section>
+        {% include 'why_choose.html' %}
+    </section>
+    <section>
+        {% include 'book_banner.html' %}
+    </section>
+
+</main>
+{% endblock body %}
+
+
+{% block script %}
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+
+{% endblock script %}

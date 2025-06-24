@@ -1,0 +1,15 @@
+<section>
+    {% if status == 'edit_profile' %}
+    {% include './componants/edit_profile.html' %}
+    {% elif status == 'reviews' %}
+    {% include './componants/reviews.html' %}
+    {% elif status == 'change_password' %}
+    {% include './componants/change_password.html' %}
+    {% elif status == 'notifications' %}
+    {% include './componants/notifications.html' %}
+    {% elif status == 'change_password' %}
+    {% include './componants/change_password.html' %}
+    {% else %}
+    {% include './componants/my_profile.html' %}
+    {% endif %}
+</section>

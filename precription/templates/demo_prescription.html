@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<header
+    class="w-full px-7 max-w-[794px] mx-auto py-5 mb-5 flex flex-wrap justify-center gap-3 border-b border-gray-200 text-sm">
+    <div class="flex gap-3 w-full justify-between items-center">
+        <button onclick="doctor_info_modal_toggle()" class="btn_outline">Update Information</button>
+        <div>
+            <div class="flex justify-between text-xs font-bold">
+                <label for="zoom_label_input">Zoom</label>
+                <p id="zoom_label_indicator">100</p>
+            </div>
+            <input min="30" max="100" step="10" value="100"
+                class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-" type="range" name="zoom_label"
+                id="zoom_label_input">
+        </div>
+        <div class="relative my_dropdown_box">
+            <div class="btn" onclick="document.getElementById('action_drop_down').classList.toggle('hidden')">Save As
+            </div>
+            <ul class="absolute right-0 bg-white rounded-lg shadow-lg py-5 z-5 min-w-40" id="action_drop_down">
+                <li onclick="print_prescription()" class="hover:bg-gray-200 p-2 block w-full">Print</li>
+                <li onclick="downloadAsImage()" class="hover:bg-gray-200 p-2 block w-full">Download as Pdf</li>
+                <li onclick="downloadAsImage()" class="hover:bg-gray-200 p-2 block w-full">Download as Image</li>
+            </ul>
+        </div>
+
+
+    </div>
+</header>
+<section class="w-full lg:overflow-hidden md:overflow-visible  overflow-x-auto overflow-y-visible">
+    <main id="demo_prescription_wrapper" class=" w-[794px] mx-auto text-[#000] bg-[#fff] origin-top">
+        <div class="a4 w-full h-full p-8 shadow flex flex-col justify-between relative">
+            <div class="absolute flex justify-center items-center w-full h-full">
+                <img class="-rotate-50 opacity-20 w-full" src="/media/image/logo.png" alt="">
+            </div>
+            <header>
+                <div class="flex justify-between pb-3">
+                    <div class="text-sm">
+                        <h5 class="text-lg font-semibold"><span name="doctor_name"
+                                class="content_editable">Doctor</span>
+                        </h5>
+                        <h6>
+                            <span name="qualification" class="content_editable">Qualification</span>
+                            | Reg. No: <span name="registration_no" class="content_editable">registration</span>
+                        </h6>
+                        <h6>Mob. No: <span name="phone_number" class="content_editable">mobile number</span></h6>
+                    </div>
+                    <div class="text-end text-sm">
+                        <h5 class="text-lg font-semibold"><span name="hospital_name" class="content_editable">Hospital
+                                Name</span> </h5>
+                        <h6><span name="chamber_address" class="content_editable">Chamber Address</span></h6>
+                        <h6>Mob. No: <span name="contact_no" class="content_editable">0199929191</span></h6>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <!-- patient info -->
+                    <div class="py-4 flex justify-between gap-1 font-medium">
+                        <h1>Name: <span id="patient_name" class="content_editable">Patient Name</span>(<span
+                                class="content_editable text-xs">Gender</span>)</h1>
+                        <h1>Age: <span class="content_editable"></span></h1>
+                        <h1>Mobile: <span class="content_editable"></span></h1>
+                        <h1>Date: <span class="content_editable">{% now "d M, Y" %}</span></h1>
+                    </div>
+
+                </div>
+                <hr>
+            </header>
+            <!-- body section -->
+            <section class="w-full flex-1 flex h-full ">
+                <div class="w-1/3 p-1 py-2 flex flex-col justify-between border-r text-sm">
+                    <div class="text-xs font-medium">
+                        <h1>Appointment id: <span class="content_editable"></span></h1>
+                        <h1>Patient id: <span class="content_editable"></span></h1>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Reason</h4>
+                        <p><span class="content_editable"></span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Diagnosis</h4>
+                        <p><span class="content_editable"></span></p>
+                    </div>
+                    <div class="">
+                        <h4 class="font-bold">Body Traits</h4>
+                        <p>Blood- <span class="font-bold content_editable"></span>(ve)</p>
+                        <p>BP- <span class="font-bold content_editable"></span></p>
+                        <p>Weight- <span class="font-bold content_editable"></span>KG</p>
+                        <p>Temperature- <span class="font-bold content_editable"></span></p>
+                        <p>Glucose- <span class="font-bold content_editable"></span>(mg/dl)<span class="text-xs">After
+                                Meal</span>
+                        </p>
+                        <p>Glucose- <span class="font-bold content_editable"></span>(mg/dl) <span class="text-xs">Before
+                                Meal</span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Examination</h4>
+                        <p><span class="content_editable"></span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Instructoin</h4>
+                        <p class=""><span class=" content_editable"></span></p>
+                    </div>
+
+                </div>
+                <!-- medicine part -->
+                <div class="w-2/3 ">
+                    {% include 'demo_prescription_right.html' %}
+                </div>
+
+            </section>
+            <footer class="">
+                <div class="border-t  pt-2 text-center">
+
+                    <h1 class="font-light"><span name="opening_hours" class="content_editable">Opening Hours</span></h1>
+                    <div class="text-sm">
+                        <p>Phone: <span name="phone_number" class="content_editable">01xxxxxxxxx</span> | Email: <span
+                                name="email" class="content_editable">demo@gamil.com</span></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+</section>
+<!-- doctor information modal -->
+<div id="doctor_info_modal" class="hidden w-full h-full bg-[#0000003d] absolute top-0 left-0">
+    <div class="w-1/2 h-auto mx-auto mt-20 p-10 bg-white shadow-lg rounded-lg relative">
+        <button onclick="doctor_info_modal_toggle()"
+            class="absolute -top-3 -right-2 text-3xl text-red-500 hover:text-red-700"><i
+                class="fa-solid fa-circle-xmark"></i>
+        </button>
+        <h1 class="text-lg text-center pb-5 font-medium">Doctor informaion</h1>
+        <form id="doctor_info_form">
+            <h1 class="font-medium text-sm py-2">Basic Information</h1>
+            <input required placeholder="Doctor name" class="input" type="text" name="doctor_name">
+            <div class="flex gap-2">
+                <input required placeholder="Qualification" class="input" type="text" name="qualification">
+                <input required placeholder="Regsitration No" class="input" type="number" name="registration_no">
+            </div>
+            <div class="flex gap-2">
+                <input required placeholder="Phone Number" class="input" type="tel" name="phone_number">
+                <input required placeholder="Email address" class="input" type="email" name="email">
+            </div>
+            <input required placeholder="Opening Hours" class="input" type="text" name="opening_hours">
+            <h1 class="font-medium text-sm py-2">Hospital Information</h1>
+            <input required placeholder="Hospital name" class="input" type="text" name="hospital_name">
+            <input required placeholder="Chamber Address" class="input" type="text" name="chamber_address">
+            <input required placeholder="Contact No" class="input" type="tel" name="contact_no">
+            <button class="btn mt-5 w-full" type="submit">Save in local storage</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src='{% static "js/demo_prescription.js" %}'></script>
+<script src='{% static "js/doctor_info.js" %}'></script>
+<script>
+
+</script>
+{% endblock script %}

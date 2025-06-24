@@ -1,0 +1,21 @@
+<main id="confirmatioin_modal" class="hidden absolute z-10  top-0 left-0 backdrop-blur-xs w-screen">
+   <div class="w-full h-screen flex items-center justify-center">
+       <form class="p-10 rounded bg-white border border-red-200 w-auto text-center" method="post" action="{% url 'user_logout' %}">
+        <h1 class="text-lg text-red-600 font-bold">Logout Confirmation</h1>
+        <p class="text-sm text-gray-700 pb-5">Are you sure you want to logout ?</p>
+        {% csrf_token %}
+        <div class="flex justify-between font-medium">
+            <button onclick="logout_modal_toggle(event)"  class="p-1 px-2 rounded border border-red-500 hover:border-red-600">Cancel</button>
+            <button class="p-1 px-2 text-white bg-red-500 hover:bg-red-600 rounded" type="submit">Logout</button>
+        </div>
+    </form>
+   </div>
+</main>
+<script>
+    confirmatioin_modal = document.getElementById('confirmatioin_modal')
+    function logout_modal_toggle(e){
+        e.preventDefault()
+        // console.log('helellll')
+        confirmatioin_modal.classList.toggle('hidden')
+    }
+</script>

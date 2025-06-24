@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescriber</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body class="a4 ">
+    <main class="w-full h-full bg-white shadow-md  p-10 flex flex-col justify-between">
+        <header>
+            <div class="flex justify-between pb-3">
+                <div class="text-xs">
+                    <h5 class="text-lg font-semibold">{{doctor.full_name}} </h5>
+                    <h6>{{doctor.qualification}} | Reg. No: {{doctor.registration_no}} |</h6>
+                    <h6>Mob. No: {{doctor.user.phone_number}}</h6>
+                </div>
+                <div class="text-end text-xs">
+                    <h5 class="text-lg font-semibold">{{doctor.hospital_name}} </h5>
+                    <h6>{{doctor.chamber_address}}</h6>
+                    <h6>Mob. No: {{doctor.contact}}</h6>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <!-- patient info -->
+                {% block patient_info %}
+                    
+                {% endblock patient_info %}
+                    
+            </div>
+            <hr>
+        </header>
+        <main class="h-full">
+            {% block body %}
+
+            {% endblock body %}
+        </main>
+        <footer class=" w-full">
+
+            {% block footer %}
+
+            {% endblock footer %}
+
+        </footer>
+    </main>
+
+    {% if messages %}
+    {% include 'modal.html' %}
+    {% endif %}
+
+    <script src='{% static "js/prescription_form.js" %}'></script>
+    {% block script %}
+
+    {% endblock script %}
+
+    <script src="https://kit.fontawesome.com/b3dbf49411.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

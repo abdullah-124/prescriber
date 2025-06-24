@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main class="py-5 px-3 lg:px-10 ">
+    <div class="py-2 border-b border-gray-200 ">
+        <h1 class="mb-5 font-medium">My Appointments
+            <span class="text-sm text-gray-500">({{appointments.end_index}} out of
+                {{appointments.paginator.count}})</span>
+        </h1>
+
+        <div class=" block pb-2">
+            {% if q == 'past' %}
+            <a class="btn_outline" href="?q=upcomming">Upcomming</a>
+            <a class="btn" href="">Past</a>
+            {% else %}
+            <a class="btn" href="">Upcomming</a>
+            <a class="btn_outline" href="?q=past">Past</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if appointments %}
+
+    <section class="mt-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 ">
+            {% for pa in appointments %}
+            <div class="border border-gray-100 p-4 py-5 rounded-lg ">
+                <h1 class="text-black font-medium">Order ID: {{pa.id}}</h1>
+                <p class="text-xs mb-1">Appointment Date: {{pa.session.appointment_date}},
+                    {{pa.session.start_time}}-{{pa.session.end_time}}</p>
+                <div class="flex items-center">
+                    {% if pa.session.doctor.user.photo %}
+                      
+                    <img class="bg-gray-200 rounded-lg w-20 h-20 object-cover"
+                        src="{{pa.session.doctor.user.photo.url}}" alt="">
+                        {% else %}
+                            <img class="bg-gray-200 rounded-lg w-20 h-20 object-cover" src="/media/image/blank_user.png" alt="">
+                    {% endif %}
+                    <div class="ps-2 ">
+                        <h1 class=" text-sm font-medium">{{pa.session.doctor.full_name}}</h1>
+                        <h1>Patient: <span class="font-medium">{{pa.patient.name}}</span>
+                            <span
+                                class="px-1 text-xs bg-indigo-100 text-indigo-500 rounded-full">{{pa.patient.label}}</span>
+                        </h1>
+                        <h1 class="font-bold text-indigo-500">{{pa.status}}</h1>
+                    </div>
+                </div>
+                <div class="mt-3 w-full flex gap-3">
+                    {% if pa.status == 'Seen' %}
+                    <a href="{% url 'patient_review' pa.id %}" class="btn w-full text-sm ">Write a review</a>
+                    {% endif %}
+                    <a onclick="document.getElementById('view_details_modal_{{pa.id}}').classList.toggle('hidden')"
+                        class="btn_outline w-full text-sm">View Details </a>
+                </div>
+                {% include 'modal/view_details.html' %}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- Pagination -->
+    <div class="my-10 flex justify-center">
+        <div class="flex gap-2 font-medium ">
+            {% if appointments.has_previous %}
+            <div
+                class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+                <a class="p-2 " href="?page={{appointments.previous_page_number}}&q={{request.GET.q}}"><i
+                        class="fa-solid fa-chevron-left"></i></a>
+            </div>
+            {% endif %}
+            {% for i in appointments.paginator.page_range %}
+            {% if i == appointments.number %}
+            <div
+                class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+                <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+            </div>
+            {% else %}
+            <div class="hover:bg-gray-300 rounded w-8 h-8 border border-gray-300 flex items-center justify-center ">
+                <a class="p-2 " href="?page={{i}}&q={{request.GET.q}}">{{i}}</a>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% if appointments.has_next %}
+            <div
+                class="hover:bg-indigo-600 bg-indigo-500 text-white rounded w-8 h-8 border border-indigo-300 flex items-center justify-center ">
+                <a class="p-2 " href="?page={{appointments.next_page_number}}&q={{request.GET.q}}"><i
+                        class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %} <p>You don't have any appointment</p>
+    {% endif %}
+</main>
+{% endblock body %}

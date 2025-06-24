@@ -1,0 +1,52 @@
+{% extends "dashboard/dashboard.html" %}
+
+{% block body %}
+
+<main class="lg:p-2">
+    <h1 class="mb-4 text-xl font-medium text-gray-700">My Profile</h1>
+    <section>
+        <div class="grid grid-cols-1 lg:grid-cols-4 lg:gap-4">
+            <div class="shadow rounded p-2 py-4">
+                <div class="flex justify-center flex-col">
+                    <div class="bg-gray-300 rounded-full border border-indigo-500 w-[150px] h-[150px] m-auto overflow-hidden">
+                        {% if doctor.user.photo %}
+                        <img class="w-full h-full object-cover" src="{{doctor.user.photo.url}}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="my-1 font-medium text-center text-gray-700">
+                        <h1 class="text-base ">{{doctor.full_name}}</h1>
+                        <p class="text-xs ">{{doctor.specialty}}</p>
+                        <p class="text-xs pt-2 font-normal">{{doctor.description}}</p>
+                        <a href="{% url 'doctor_profile' 'edit_profile' %}">
+                            <button
+                                class="font-normal rounded bg-indigo-600 hover:bg-indigo-500 text-white text-sm p-1 px-2 my-4">
+                                <i class="fa-solid fa-pen"></i>
+                                Edit Profile
+                            </button>
+                        </a>
+                        <p class="text-xs">{{doctor.total_review}} Reviews | {{doctor.total_rating}} Rating</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="shadow lg:col-span-3">
+                <header class="mb-4 text-gray-500 text-sm border-b border-gray-100 flex flex-wrap">
+                    <a class="p-2 mx-2 hover:text-blue-400" href="{% url 'doctor_profile' %}">My profile</a>
+                    <a class="p-2 mx-2 hover:text-blue-400" href="{% url 'doctor_profile' 'reviews' %}">Reviews</a>
+                    <a class="p-2 mx-2 hover:text-blue-400"
+                        href="{% url 'doctor_profile' 'notifications' %}">Notifications</a>
+                    <a class="p-2 mx-2 hover:text-blue-400" href="{% url 'doctor_profile' 'change_password' %}">Change
+                        Password</a>
+                </header>
+
+
+                <!-- main componants -->
+                <section>
+                    {% include 'dashboard/components.html' %}
+                </section>
+
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock body %}
