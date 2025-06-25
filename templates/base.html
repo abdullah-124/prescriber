@@ -17,17 +17,20 @@
 
 </head>
 
-<body class="relative max-w-[1400px] mx-auto text-gray-700">
+<body class="scroll-smoth relative max-w-[1400px] mx-auto text-gray-700">
     {% include 'header.html' %}
     {% if messages %}
     {% include 'modal.html' %}
     {% endif %}
 
-    <main class="fade">
+    <main class="fade min-h-[80vh]">
         {% block body %}
 
         {% endblock body %}
     </main>
+    <footer>
+        {% include 'footer.html' %}
+    </footer>
     {% include 'modal/logout_confirmation.html' %}
 
     <script src="https://kit.fontawesome.com/b3dbf49411.js" crossorigin="anonymous"></script>

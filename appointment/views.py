@@ -65,7 +65,7 @@ class Appointment(LoginRequiredMixin,View):
             return render(request, 'my_appointment.html',context)
         
         # else all appointments are sended
-        result = AppointmentSession.objects.all().order_by('appointment_date','start_time')
+        result = AppointmentSession.objects.is_ongoing().order_by('appointment_date','start_time')
         paginator = Paginator(result,12)
         page_num = request.GET.get('page')
         sessions = paginator.get_page(page_num)
@@ -121,7 +121,7 @@ def search_appointment(request):
     print(q)
     if not q :
         return render(request, 'appointment.html')
-    result = AppointmentSession.objects.annotate(
+    result = AppointmentSession.objects.is_ongoing().annotate(
         combined = Concat(
             'appointment_date', Value(' '),
             'doctor__user__first_name',Value(' '),
@@ -134,7 +134,7 @@ def search_appointment(request):
     )
     keywords = q.split(' ')
     for k in keywords: 
-        print(k)
+        # print(k)
         result = result.filter(combined__icontains = k)
     paginator = Paginator(result, 15)
     page_num = request.GET.get('page')

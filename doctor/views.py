@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.views.generic import View
 from django.contrib import messages
 from django.db.models import Q
-from doctor.forms import DoctorProfileUpdate, DoctorPortfolioForm, Doctor_applicatioin_form
+from doctor.forms import DoctorProfileUpdate, Doctor_applicatioin_form
 from django.contrib.auth.forms import PasswordChangeForm
 from doctor.decorators import DoctorRequiredMixin
 from user.forms import UserUpdateForm
@@ -88,7 +88,7 @@ class DoctorView(View):
     def get(self, request, status=None,pk=None):
         if(status == 'get'):
             doctor = get_object_or_404(Doctor, id = pk)
-            sessions = doctor.sessions.all()
+            sessions = doctor.sessions.is_ongoing()
             releted_doctor = Doctor.objects.filter(
                 Q(hospital_name__icontains = doctor.hospital_name) |
                 Q(chamber_address__icontains = doctor.chamber_address) |

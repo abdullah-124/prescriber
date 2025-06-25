@@ -35,6 +35,13 @@ class PatientUpdateForm(forms.ModelForm):
             
         }
 class PatientCreateForm(forms.ModelForm):
+    mobile = PhoneNumberField(
+        region='BD',
+        widget=forms.TextInput(attrs={
+            'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200',
+            'placeholder': '+8801XXXXXXXXX'
+        })
+    )
     class Meta: 
         model = Patient
         fields = ['name', 'label','dob','address','gender','mobile']

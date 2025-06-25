@@ -39,6 +39,14 @@
     color: white;
     background-color: #5755fc;
 }
+/* ##########       HOME  START         ############ */
+#home-features .featured_card{
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #f6f3f4;
+}
+
+/* ##########       HOME  END           ############ */
 #patients_suggestion_box{
     /* border: 1px solid #d1d5dc ; */
     /* border-top: none; */
