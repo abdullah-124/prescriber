@@ -66,7 +66,7 @@ class Appointment(LoginRequiredMixin,View):
                 return render(request, 'my_appointment.html',context)
             
             # else all appointments are sended
-            result = AppointmentSession.objects.is_ongoing().order_by('appointment_date','start_time')
+            result = AppointmentSession.objects.filter(appointment_date__gte = now.today()).order_by('appointment_date','start_time')
             paginator = Paginator(result,12)
             page_num = request.GET.get('page')
             sessions = paginator.get_page(page_num)

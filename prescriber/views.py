@@ -6,9 +6,8 @@ from user.models import User
 from review.models import Review
 from patient.models import Patient
 from appointment.models import AppointmentSession
-import json
-import random
-import re
+from datetime import timedelta
+from django.contrib import messages
 dummy = [
     {
         "seat": 5,
@@ -38,24 +37,8 @@ dummy = [
 
 
 def my_function(req):
-    resolver = get_resolver()
-
-    def extract_urls(patterns, prefix=''):
-        for pattern in patterns:
-            if hasattr(pattern, 'url_patterns'):
-                yield from extract_urls(pattern.url_patterns, prefix + str(pattern.pattern))
-            else:
-                full_path = prefix + str(pattern.pattern)
-                yield full_path
-
-    # Get all patterns
-    all_patterns = list(extract_urls(resolver.url_patterns))
-
-    # Filter patterns with `<id>` or `<int:id>`
-    id_urls = [url for url in all_patterns if re.search(r'<.*id.*>', url)]
-
-    html_links = ''.join(f'<a href="{url}">{url}</a><br>' for url in id_urls)
-    return HttpResponse(f"<h2>URLs containing &lt;id&gt; parameters</h2>{html_links}")
+    
+    return HttpResponse('done')
 
 
 

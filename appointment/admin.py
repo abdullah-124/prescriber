@@ -4,6 +4,7 @@ from appointment.models import AppointmentSession, Patient_appointment
 @admin.register(AppointmentSession)
 class AppointmentSession(admin.ModelAdmin):
     list_display = [field.name for field in AppointmentSession._meta.fields]
+    list_editable = ['appointment_date']
     # list_display = ['doctor','start_time']
     
 @admin.register(Patient_appointment)
