@@ -21,20 +21,24 @@ def search_drugs(req):
     # query_result = list(exact_matches)
     
     if  q: 
-        # print('nothing')
-        drugs = Drugs.objects.annotate(
-            combined=Concat(
-                'name',
-                Value(' '),
-                'dosage',
-                Value(' '),
-                'generic',
-                output_field=TextField()
+        try:
+            # print('nothing')
+            drugs = Drugs.objects.annotate(
+                combined=Concat(
+                    'name',
+                    Value(' '),
+                    'dosage',
+                    Value(' '),
+                    'generic',
+                    output_field=TextField()
+                )
             )
-        )
-        keywords = q.split(" ")
-        for k in keywords:
-            drugs = drugs.filter(combined__icontains = k).values()
-        query_result = list(drugs)
-    result = query_result[:5]
-    return JsonResponse(result, safe=False)
+            keywords = q.split(" ")
+            for k in keywords:
+                drugs = drugs.filter(combined__icontains = k).values()
+            query_result = list(drugs)
+            result = query_result[:5]
+            return JsonResponse(result, safe=False)
+        except:
+            return JsonResponse([], safe=False)
+    

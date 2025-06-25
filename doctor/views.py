@@ -39,84 +39,95 @@ class Doctor_profile(DoctorRequiredMixin, View ):
     template_name = 'dashboard/doctor_profile.html'
     
     def get(self, request, status=None):
-        doctor = get_object_or_404(Doctor, user__username=request.user.username)
-        doctor_form = DoctorProfileUpdate(instance=doctor)
-        
-        password_change_form = PasswordChangeForm(user=request.user)
-        reviews = doctor.reviews.all()
-        context = {
-            'doctor': doctor ,
-            'status': status,
-            'reviews': reviews,
-            'doctor_form': doctor_form,
-            'password_change_form': password_change_form,
-        }
-        return render(request, self.template_name, context )
+        try:
+            doctor = get_object_or_404(Doctor, user__username=request.user.username)
+            doctor_form = DoctorProfileUpdate(instance=doctor)
+            
+            password_change_form = PasswordChangeForm(user=request.user)
+            reviews = doctor.reviews.all()
+            context = {
+                'doctor': doctor ,
+                'status': status,
+                'reviews': reviews,
+                'doctor_form': doctor_form,
+                'password_change_form': password_change_form,
+            }
+            return render(request, self.template_name, context )
+        except:
+            return render(request, 'not_found.html')
     def post(self,request, status=None):
-        doctor = get_object_or_404(Doctor, user__username=request.user.username)
-        doctor_form = DoctorProfileUpdate(request.POST, request.FILES, instance=doctor)
-        password_change_form = PasswordChangeForm(request.user, data=request.POST)
-        if(status == 'edit_profile'):
-            if(doctor_form.is_valid()):
-                doctor_form.save()
-                status = None
-                print('hello')
-                messages.success(request, 'Updated')
-                return redirect('doctor_profile')
-            else: 
-                messages.error(request, doctor_form.errors)
-        elif(status == 'change_password'):
-            if(password_change_form.is_valid()):
-                # print(password_change_form.cleaned_data)
-                user = password_change_form.save()
-                update_session_auth_hash(request, user)
-                messages.success(request, 'Password Changed')
-                return redirect('doctor_profile')
-            else :
-                messages.error(request, password_change_form.errors)
+        try:
+            doctor = get_object_or_404(Doctor, user__username=request.user.username)
+            doctor_form = DoctorProfileUpdate(request.POST, request.FILES, instance=doctor)
+            password_change_form = PasswordChangeForm(request.user, data=request.POST)
+            if(status == 'edit_profile'):
+                if(doctor_form.is_valid()):
+                    doctor_form.save()
+                    status = None
+                    print('hello')
+                    messages.success(request, 'Updated')
+                    return redirect('doctor_profile')
+                else: 
+                    messages.error(request, doctor_form.errors)
+            elif(status == 'change_password'):
+                if(password_change_form.is_valid()):
+                    # print(password_change_form.cleaned_data)
+                    user = password_change_form.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, 'Password Changed')
+                    return redirect('doctor_profile')
+                else :
+                    messages.error(request, password_change_form.errors)
 
-        context = {
-            'doctor': doctor ,
-            'status': status,
-            'doctor_form': doctor_form,
-            'password_change_form': password_change_form
-        }
-        return render(request, self.template_name, context )
+            context = {
+                'doctor': doctor ,
+                'status': status,
+                'doctor_form': doctor_form,
+                'password_change_form': password_change_form
+            }
+            return render(request, self.template_name, context )
+        except: 
+            return render(request, 'not_found.html')
+
+
 
 
 class DoctorView(View):
     def get(self, request, status=None,pk=None):
-        if(status == 'get'):
-            doctor = get_object_or_404(Doctor, id = pk)
-            sessions = doctor.sessions.is_ongoing()
-            releted_doctor = Doctor.objects.filter(
-                Q(hospital_name__icontains = doctor.hospital_name) |
-                Q(chamber_address__icontains = doctor.chamber_address) |
-                Q(qualification__icontains = doctor.qualification) |
-                Q(specialty__icontains = doctor.specialty) 
-            ).exclude(id=doctor.id).distinct()[:5]
-            context = {
-                'doctor':doctor,
-                'sessions': sessions,
-                'releted_doctor': releted_doctor
-            }
-            return render(request, 'doctor_profile.html', context )
-        data = Doctor.objects.all()
-        q = request.GET.get('q')
-        if(q):
-            print(q)
-            data = data.filter(
-                Q(hospital_name__icontains = q) |
-                Q(user__first_name__icontains = q) |
-                Q(user__last_name__icontains = q) |
-                Q(chamber_address__icontains = q) |
-                Q(qualification__icontains = q) |
-                Q(specialty__icontains = q) 
-            )
-        paginator = Paginator(data, 12)
-        page_number = request.GET.get('page')
-        doctors = paginator.get_page(page_number)
+        try:
+            if(status == 'get'):
+                doctor = get_object_or_404(Doctor, id = pk)
+                sessions = doctor.sessions.is_ongoing()
+                releted_doctor = Doctor.objects.filter(
+                    Q(hospital_name__icontains = doctor.hospital_name) |
+                    Q(chamber_address__icontains = doctor.chamber_address) |
+                    Q(qualification__icontains = doctor.qualification) |
+                    Q(specialty__icontains = doctor.specialty) 
+                ).exclude(id=doctor.id).distinct()[:5]
+                context = {
+                    'doctor':doctor,
+                    'sessions': sessions,
+                    'releted_doctor': releted_doctor
+                }
+                return render(request, 'doctor_profile.html', context )
+            data = Doctor.objects.all()
+            q = request.GET.get('q')
+            if(q):
+                print(q)
+                data = data.filter(
+                    Q(hospital_name__icontains = q) |
+                    Q(user__first_name__icontains = q) |
+                    Q(user__last_name__icontains = q) |
+                    Q(chamber_address__icontains = q) |
+                    Q(qualification__icontains = q) |
+                    Q(specialty__icontains = q) 
+                )
+            paginator = Paginator(data, 12)
+            page_number = request.GET.get('page')
+            doctors = paginator.get_page(page_number)
 
 
-        return render(request, 'doctor_list.html', {'doctors': doctors,'q':q})
+            return render(request, 'doctor_list.html', {'doctors': doctors,'q':q})
+        except:
+            return render(request, 'not_found.html')
 

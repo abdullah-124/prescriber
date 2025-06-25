@@ -47,71 +47,83 @@ def patient_profile(req, id):
 class Patient_profile_User_view(LoginRequiredMixin, View):
     template_name = 'patient_profile_user_view.html'
     def get(self,request,id):
-        patient = get_object_or_404(Patient, id=id)
-        if(patient.creator != request.user):
-            return HttpResponse('<h1>Page not found 502</h1>')
-        #  main task
-        form = PatientUpdateForm(instance=patient)
-        previous_appointments = Patient_appointment.objects.filter(patient = patient,status='Seen').order_by('-created_at')
-        appointments =  Patient_appointment.objects.filter(patient = patient, session__appointment_date__gt = date.today())
-        context = {
-            'form': form,
-            'patient': patient,
-            'appointments': appointments,
-            'previous_appointments' : previous_appointments,
-        }
-        return render(request, self.template_name, context)
+        try: 
+            patient = get_object_or_404(Patient, id=id)
+            if(patient.creator != request.user):
+                return HttpResponse('<h1>Page not found 502</h1>')
+            #  main task
+            form = PatientUpdateForm(instance=patient)
+            previous_appointments = Patient_appointment.objects.filter(patient = patient,status='Seen').order_by('-created_at')
+            appointments =  Patient_appointment.objects.filter(patient = patient, session__appointment_date__gt = date.today())
+            context = {
+                'form': form,
+                'patient': patient,
+                'appointments': appointments,
+                'previous_appointments' : previous_appointments,
+            }
+            return render(request, self.template_name, context)
+        except:
+            return render(request, 'not_found.html')
     def post(self, request,id):
-        patient = get_object_or_404(Patient, id = id)
-        if(patient.creator != request.user):
-            return HttpResponse('<h1>Page not found</h1>')
-        form = PatientUpdateForm(request.POST, instance=patient)
-        # validation
-        if(form.is_valid()):
-            form.save()
-            messages.success(request, "Updated")
-            return redirect('patient_profile_user_view',patient.id)
-        else :
-            messages.error(request, form.errors)
+        try:
+            patient = get_object_or_404(Patient, id = id)
+            if(patient.creator != request.user):
+                return HttpResponse('<h1>Page not found</h1>')
+            form = PatientUpdateForm(request.POST, instance=patient)
+            # validation
+            if(form.is_valid()):
+                form.save()
+                messages.success(request, "Updated")
+                return redirect('patient_profile_user_view',patient.id)
+            else :
+                messages.error(request, form.errors)
 
-        previous_appointments = Patient_appointment.objects.filter(patient = patient,status='Seen').order_by('-created_at')
-        context = {
-            'form': form,
-            'patient': patient,
-            'previous_appointments' : previous_appointments
-        }
-        return render(request, self.template_name, context)
+            previous_appointments = Patient_appointment.objects.filter(patient = patient,status='Seen').order_by('-created_at')
+            context = {
+                'form': form,
+                'patient': patient,
+                'previous_appointments' : previous_appointments
+            }
+            return render(request, self.template_name, context)
+        except: 
+            return render(request, 'not_found.html')
     
 # My patient list it returns all patients were created by req.user
 class MyPatient(LoginRequiredMixin,View):
     template_name = 'my_patients.html'
     def get(self, request):
-        data = request.user.my_patients.all()
-        patients = data.annotate(
-            priority = Case(
-                When(label='Other', then=0),
-                When(label = 'you',then=3),
-                When(label = 'mother', then=2),
-                When(label = 'father', then=2),
-                default= 1,
-                output_field=IntegerField()
-            )
-        ).order_by('-priority','last_updated')
-        form = PatientCreateForm()
-        return render(request, self.template_name, {'patients':patients, 'form':form})
+        try: 
+            data = request.user.my_patients.all()
+            patients = data.annotate(
+                priority = Case(
+                    When(label='Other', then=0),
+                    When(label = 'you',then=3),
+                    When(label = 'mother', then=2),
+                    When(label = 'father', then=2),
+                    default= 1,
+                    output_field=IntegerField()
+                )
+            ).order_by('-priority','last_updated')
+            form = PatientCreateForm()
+            return render(request, self.template_name, {'patients':patients, 'form':form})
+        except: 
+            return render(request, 'not_found.html')
     # 
     def post(self,request):
-        form  = PatientCreateForm(request.POST)
-        if(form.is_valid()):
-            # print('bla bla bla...')
-            # print(form.cleaned_data)
-            patient = form.save(commit=False)
-            patient.creator = request.user
-            patient.save()
-            messages.success(request, "✅ Patient has created")
-        else :
-            messages.error(request, form.errors)
-        return redirect('my_patients')
+        try: 
+            form  = PatientCreateForm(request.POST)
+            if(form.is_valid()):
+                # print('bla bla bla...')
+                # print(form.cleaned_data)
+                patient = form.save(commit=False)
+                patient.creator = request.user
+                patient.save()
+                messages.success(request, "Patient has created")
+            else :
+                messages.error(request, form.errors)
+            return redirect('my_patients')
+        except: 
+            return render(request, 'not_found.html')
     
 
 

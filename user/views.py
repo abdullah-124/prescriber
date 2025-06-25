@@ -72,13 +72,16 @@ class UserProfile(LoginRequiredMixin, View):
         elif(status == 'password_change'):
             form = PasswordChangeForm(request.user)
             return render(request, 'password_change.html', {'form':form})
-        user = get_object_or_404(User, username=request.user.username)
-        patients = user.my_patients.all()
-        context = {
-            'user': user,
-            'patients': patients
-        }
-        return render(request, 'user_profile.html', context)
+        try:
+            user = get_object_or_404(User, username=request.user.username)
+            patients = user.my_patients.all()
+            context = {
+                'user': user,
+                'patients': patients
+            }
+            return render(request, 'user_profile.html', context)
+        except: 
+            return render(request, 'not_found.html')
     def post(self,request, status=None):
         # update profile info
         if(status=='update'):

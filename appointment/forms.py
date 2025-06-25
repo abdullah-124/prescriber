@@ -5,11 +5,11 @@ from patient.models import Patient
 
 class AppoiontmentSessionForm(forms.ModelForm):
     start_time = forms.TimeField(
-        widget=forms.TimeInput(format='%I:%M %p', attrs={'placeholder': '02:30 PM','type':'time'}),
+        widget=forms.TimeInput( attrs={'placeholder': '02:30 PM','type':'time'}),
 
     )
     end_time = forms.TimeField(
-        widget=forms.TimeInput(format='%I:%M %p', attrs={'placeholder': '02:30 PM','type':'time'}),
+        widget=forms.TimeInput( attrs={'placeholder': '02:30 PM','type':'time'}),
 
     )
     appointment_date = forms.DateField(
