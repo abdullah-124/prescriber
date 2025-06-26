@@ -2,20 +2,25 @@
 
 {% block body %}
 
-<main class="relative lg:p-10 p-8">
+<main class="relative lg:p-10 p-8 overflow-hidden">
     <section class="">
         {% include 'banner.html' %}
     </section>
-    <section>
-        {% include 'banner_2.html' %}
+    <section class="">
+        {% include 'how_it_works.html' %}
     </section>
     <section class="">
         {% include 'features.html' %}
     </section>
     <section class="py-10">
+        {% include 'banner_2.html' %}
+    </section>
+    {% if not user.is_authenticated %}  
+    <section class="py-10">
         {% include 'book_banner.html' %}
     </section>
-    <section>
+    {% endif %}
+    <section class="py-10">
         {% include 'why_choose.html' %}
     </section>
 

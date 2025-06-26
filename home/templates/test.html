@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthCare Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --primary: #5755fc;
+      }
+    </style>
+  </head>
+  <body class="font-sans text-gray-800">
+
+    <!-- Hero Section -->
+    <section class="bg-[var(--primary)] text-white py-20 px-4">
+      <div class="max-w-6xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Smart Healthcare at Your Fingertips</h1>
+        <p class="text-lg md:text-xl mb-6">Manage appointments, prescriptions, and patient care with ease.</p>
+        <a href="#features" class="bg-white text-[var(--primary)] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100">Explore Features</a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-gray-50 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12 text-[var(--primary)]">What We Offer</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <!-- Doctor Dashboard -->
+          <div class="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
+            <h3 class="text-xl font-semibold text-[var(--primary)] mb-2">Doctor Dashboard</h3>
+            <ul class="list-disc ml-5 text-sm text-gray-700">
+              <li>Create & manage sessions</li>
+              <li>Add patients in real-time</li>
+              <li>Generate & print prescriptions</li>
+              <li>Edit past treatments</li>
+            </ul>
+          </div>
+
+          <!-- Appointment System -->
+          <div class="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
+            <h3 class="text-xl font-semibold text-[var(--primary)] mb-2">Appointment System</h3>
+            <ul class="list-disc ml-5 text-sm text-gray-700">
+              <li>Search doctors by name or specialty</li>
+              <li>View available session times</li>
+              <li>Book appointments instantly</li>
+              <li>Receive confirmation & reminders</li>
+            </ul>
+          </div>
+
+          <!-- Patient & Family Management -->
+          <div class="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
+            <h3 class="text-xl font-semibold text-[var(--primary)] mb-2">User Portal</h3>
+            <ul class="list-disc ml-5 text-sm text-gray-700">
+              <li>Add and manage family members</li>
+              <li>Book appointments for them</li>
+              <li>Download & store prescriptions</li>
+              <li>Leave doctor reviews</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="bg-white py-20 px-4">
+      <div class="max-w-6xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
+        <p class="mb-8 text-gray-600">Whether you're a doctor or a patient, join now and streamline healthcare.</p>
+        <div class="flex justify-center gap-4 flex-wrap">
+          <a href="/signup-doctor" class="bg-[var(--primary)] text-white px-6 py-3 rounded shadow hover:bg-blue-700">Join as Doctor</a>
+          <a href="/signup-user" class="bg-gray-100 text-[var(--primary)] px-6 py-3 rounded shadow hover:bg-gray-200">Join as User</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-center text-sm py-6 text-gray-500">
+      © 2025 HealthCare Portal. All rights reserved.
+    </footer>
+
+  </body>
+</html>

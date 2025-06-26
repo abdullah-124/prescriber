@@ -10,7 +10,8 @@
     <!-- Load CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     
-    <link rel="stylesheet" href='{% static "/css/style.css" %}'>
+    <!-- <link rel="stylesheet" href='{% static "/css/style.css" %}'> -->
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <!-- Load JS -->
@@ -18,7 +19,7 @@
 
 </head>
 
-<body class="scroll-smoth relative max-w-[1400px] mx-auto text-gray-700">
+<body class="scroll-smoth relative max-w-[1300px] mx-auto text-gray-700">
     {% include 'header.html' %}
     {% if messages %}
     {% include 'modal.html' %}
