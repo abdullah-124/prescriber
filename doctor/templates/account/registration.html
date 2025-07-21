@@ -28,10 +28,10 @@
   </div>
   {% elif form %}
   <h1 class="text-lg font-medium pb-6 text-center">Doctor Registration Form</h1>
-  <form class="grid grid-cols-1 lg:grid_cols-2 md:grid-cols-2 gap-x-2" method="post" action="">
+  <form class="grid grid-cols-1 sm:grid-cols-2 gap-2" method="post" action="">
     {% csrf_token %}
     {{form|crispy}}
-    <button class="col-span-2 w-full btn" type="submit">Submit</button>
+    <button class="sm:col-span-2 w-full btn" type="submit">Submit</button>
   </form>
   {% endif %}
 </main>
