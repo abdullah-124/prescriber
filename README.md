@@ -5,7 +5,7 @@ Prescriber is a web-based platform for doctors and healthcare professionals to m
 ---
 
 [Live Link](https://prescriber.pythonanywhere.com/)
-[My Portfolio](https://prescriber.pythonanywhere.com/)
+[My Portfolio](https://abdullah-sakib.vercel.app/)
 
 ---
 
