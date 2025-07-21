@@ -4,6 +4,11 @@ Prescriber is a web-based platform for doctors and healthcare professionals to m
 
 ---
 
+[Live Link](https://prescriber.pythonanywhere.com/)
+[My Portfolio](https://prescriber.pythonanywhere.com/)
+
+---
+
 ## 🚀 Features
 
 - ✅ Doctor authentication & profile
@@ -21,7 +26,7 @@ Prescriber is a web-based platform for doctors and healthcare professionals to m
 ## 🛠️ Tech Stack
 
 - **Backend:** Django (Python)
-- **Frontend:** Tailwind CSS, Vanila Javascript
+- **Frontend:** Django Template, Tailwind CSS, Vanila Javascript
 - **Database:** SQLite  
 - **Authentication:** Django built-in auth
 - **Deployment:** PythonAnywhere
